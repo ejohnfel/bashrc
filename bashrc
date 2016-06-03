@@ -4,6 +4,36 @@
 # Author Eric Johnfelt
 # Date 5/5/2016
 
+LOCATION="internal"
+MYDOMAIN="digitalwicky.biz"
+
+# Determine Location of This Machine (and update MYDOMAIN,LOCATION variables)
+function DetermineLocation()
+{
+	# If internal, digitalwicky.biz
+	# If external, digitalwicky.net
+	# Note, firewall settings may prevent use of resources
+	TMP=/tmp/dl.${RANDOM}
+	hostname -I > ${TMP}
+
+	while read ipaddr; do
+		prefix=`echo ${ipaddr} | cut -d"." -f 1,2`
+
+		case "${prefix}" in
+		"192.168")
+			LOCATION="internal"
+			MYDOMAIN="digitalwicky.biz"
+			;;
+		*)
+			LOCATION="external"
+			MYDOMAIN="digitalwicky.net"
+			;;
+		esac
+	done < ${TMP}
+
+	rm ${TMP}
+}
+
 # Determine Package Manager
 function GetPackageManager()
 {
@@ -85,4 +115,9 @@ function allupdates()
 	fi	
 }
 
+# Determine This Machines Location
+DetermineLocation
+
+alias rootme="sudo bash"
 alias mkroot="sudo bash"
+alias mst="sudo mount -t nfs storage.${MYDOMAIN}:/srv/storage /mnt"
