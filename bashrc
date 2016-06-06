@@ -4,6 +4,9 @@
 # Author Eric Johnfelt
 # Date 5/5/2016
 
+declare -a UPDCMDS
+FIXCHECK=""
+PREFIX=""
 LOCATION="internal"
 MYDOMAIN="digitalwicky.biz"
 
@@ -40,6 +43,7 @@ function GetPackageManager()
 	apt-get --version > /dev/null
 
 	if [ $? = 0 ]; then
+		FIXCHECK="apt-get --assume-no upgrade"
 		UPDCMDS[0]="apt-get update"
 		UPDCMDS[1]="apt-get -y upgrade"
 		UPDCMDS[2]="apt-get -y dist-upgrade"
@@ -83,6 +87,28 @@ function GetPackageManager()
 	echo -e "Cannot determine package manager.. quitting..."
 
 	return 0
+}
+
+# Update Package Manager's Database
+function UpdateManagerDatabase()
+{
+	PREFIX=""
+
+	if [ ! "${LOGNAME}" = "root" ]; then
+		PREFIX=sudo
+	fi
+
+	GetPackageManager
+
+	eval ${PREFIX} ${UPDCMDS[0]}
+}
+
+# Check for Existing Updates
+function CheckForUpdates()
+{
+	UpdateManagerDatabase
+
+	eval ${PREFIX} ${FIXCHECK}
 }
 
 # Apply All Updates
