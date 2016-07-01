@@ -1,11 +1,36 @@
 #!/bin/bash
 
-MARKER="[AUTOMATED_INSERT-MARKER]"
+TARGET=~/.bashrc
+TMP=/tmp/bashrc_prefix.${RANDOM}
+MARKER="\\[AUTOMATED-INSERT-MARKER\\]"
+UPDATE=bashrc
 
-grep "${MARKER}" ~/.bashrc > /dev/null
+if [ -f ${UPDATE} ]; then
+	echo -e "[ Detecting Marker..."
+	grep "${MARKER}" ~/.bashrc > /dev/null
 
-if [ $? = 0 ]; then
-	index=`grep -l "${MARKER}" ~/.bashrc`
+	if [ $? = 0 ]; then
+		OUTPUT=`grep -n "${MARKER}" ~/.bashrc`
+
+		if [ ! "${OUTPUT}" = "" ]; then
+			echo "[= Detected Marker"
+			INDEX=`echo ${OUTPUT} | cut -d ":" -f 1`
+
+			INDEX=$(( ${INDEX} - 2 ))
+
+			echo -e "[=== Clearing out old stuff..."
+			sed -n "1,${INDEX}p" ${TARGET} > ${TMP}
+			echo -e "[==== Updating ${TARGET}"
+			cat ${TMP} bashrc > ${TARGET}
+			echo -e "[=== Done"
+		else
+			echo "[== Detected Nothing, Can't Complete"
+		fi
+	else
+		echo -e "[== No Marker Found, Adding Addendum..."
+		cat bashrc >> ~/.bashrc
+		echo -e "[= Done"
+	fi
 else
-	cat bashrc >> ~/.bashrc
+	echo -e "Can't find update file: ${UPDATE}"
 fi
