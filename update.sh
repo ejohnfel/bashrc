@@ -6,7 +6,7 @@ MARKER="\\[AUTOMATED-INSERT-MARKER\\]"
 UPDATE=bashrc
 
 if [ -f ${UPDATE} ]; then
-	echo -e "[ Detecting Marker..."
+	echo -e "[= Detecting Marker..."
 	grep "${MARKER}" ~/.bashrc > /dev/null
 
 	if [ $? = 0 ]; then
@@ -23,6 +23,7 @@ if [ -f ${UPDATE} ]; then
 			echo -e "[==== Updating ${TARGET}"
 			cat ${TMP} bashrc > ${TARGET}
 			echo -e "[=== Done"
+			rm ${TMP}
 		else
 			echo "[== Detected Nothing, Can't Complete"
 		fi
