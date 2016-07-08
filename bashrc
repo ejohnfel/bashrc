@@ -4,6 +4,9 @@
 # Date 5/5/2016
 
 declare -a UPDCMDS
+ISNAT=0
+INTERNIP=`hostname -I`
+EXTERNIP="UNKNOWN"
 FIXCHECK=""
 PREFIX=""
 LOCATION="internal"
@@ -34,6 +37,54 @@ function DetermineLocation()
 	done < ${TMP}
 
 	rm ${TMP}
+}
+
+# Determine NAT and External IP (NPING/NMAP must be installed, must be able to sudo)
+# Sets ${ISNAT}, ${INTERNIP} and ${EXTERNIP} Environment Variables
+function DetectNAT()
+{
+	nping > /dev/null
+
+	if [ ! $? = 1 ]; then
+		echo -e "Nping not installed, cannot determine NAT"
+		INTERNIP=`hostname -I`
+		EXTERNIP="UNKNOWN"
+		ISNAT=0
+
+		return 127
+	else
+		TMP=/tmp/detectnat.${RANDOM}
+
+		sudo nping --ec "public" -c 1 echo.nmap.org > ${TMP}
+
+		INTERNIP=`grep SENT ${TMP} | cut -d" " -f4 | cut -d"[" -f2`
+		EXTERNIP=`grep CAPT ${TMP} | cut -d" " -f4 | cut -d"[" -f2`
+
+		if [ "${INTERNIP}" = "${EXTERNIP}" ]; then
+			ISNAT=0
+		else
+			ISNAT=1
+		fi
+
+		rm ${TMP}
+	fi
+
+	return 0
+}
+
+# Show NAT Status
+function isnat()
+{
+	DetectNAT
+
+	if [ ${ISNAT} = 1 ]; then
+		echo -e "[=== This host is NAT/PAT'ed"
+		echo -e "[=== Internal IP : ${INTERNIP}"
+		echo -e "[=== External IP : ${EXTERNIP}"
+	else
+		echo -e "[=== This host is NOT NAT/PAT'ed"
+		echo -e "[=== IP : ${INTERNIP}"
+	fi
 }
 
 # Determine Package Manager
