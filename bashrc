@@ -182,6 +182,8 @@ function allupdates()
 
 	if [ "$1" = "-r" -o "$1" = "-y" ]; then
 		${PREFIX} reboot
+	elif [ "$1" = "-h" ]; then
+		${PREFIX} shutdown -h now
 	else
 		read -t 60 -p "Reboot (y/N)? "
 
