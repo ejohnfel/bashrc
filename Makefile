@@ -1,7 +1,7 @@
 bashrcfiles = main.sh aliases.sh
 updateosfiles = head.txt main.sh tail.txt
 unattfiles = unattendedupdate.sh
-installfolder = /usr/bin/local
+installfolder = /usr/local/bin
 
 all: bashrc updateos
 
