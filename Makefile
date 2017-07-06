@@ -20,9 +20,9 @@ ifeq "$(LOGNAME)" "root"
 	@cp updateos $(unattfiles) $(installfolder)
 	@chmod ug=rx $(installfolder)/updateos $(installfolder)/$(unattfiles)
 else
-	@echo -e "You must be root to install"
+	@echo "You must be root to install"
 endif
 
 clean:
-	@echo -e "Cleaning created files"
+	@echo "Cleaning created files"
 	@rm bashrc updateos
