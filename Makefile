@@ -15,7 +15,7 @@ update: bashrc
 	@chmod ugo+rx update.sh
 	@./update.sh
 
-automation: updateos $(unattfiles)
+automation: updateos
 ifeq "$(LOGNAME)" "root"
 	@cp updateos $(unattfiles) $(installfolder)
 	@chmod ug=rx $(installfolder)/updateos $(installfolder)/$(unattfiles)
