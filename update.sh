@@ -5,6 +5,8 @@ TMP=/tmp/bashrc_prefix.${RANDOM}
 MARKER="\\[AUTOMATED-INSERT-MARKER\\]"
 UPDATE=bashrc
 
+make
+
 if [ -f ${UPDATE} ]; then
 	echo -e "[= Detecting Marker..."
 	grep "${MARKER}" ~/.bashrc > /dev/null
