@@ -181,11 +181,11 @@ function allupdates()
 	done
 
 	if [ "$1" = "-r" -o "$1" = "-y" ]; then
-		read -t 30 -p "Reboot (Y/n)? "
-		[ ! "${REPLY}" = "n" ] && ${PREFIX} reboot
+		read -t 30 -p "Rebooting in 30s, abort (y/n)? "
+		[ ! "${REPLY}" = "y" ] && ${PREFIX} reboot
 	elif [ "$1" = "-h" -o "$1" = "-s" ]; then
-		read -t 30 -p "Shutdown (Y/n)? "
-		[ ! "${REPLY}" = "n" ] && ${PREFIX} shutdown -h now
+		read -t 30 -p "Shutdowning down in 30s, abort (y/n)? "
+		[ ! "${REPLY}" = "y" ] && ${PREFIX} shutdown -h now
 	else
 		read -t 60 -p "Reboot (y/N)? "
 
