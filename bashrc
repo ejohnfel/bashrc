@@ -4,6 +4,7 @@
 # Date 5/5/2016
 
 declare -a UPDCMDS
+MYGITREP=ejohnfel
 BASHRCVERSION="0.1"
 ISNAT=0
 INTERNIP=`hostname -I`
@@ -16,7 +17,7 @@ MYDOMAIN="digitalwicky.biz"
 # Clone Git Repositories From My Account
 function mygit()
 {
-	git ${1} https://github.com/ejohnfel/${2}
+	git ${1} https://github.com/${MYGITREP}/${2}
 }
 
 # Determine Location of This Machine (and update MYDOMAIN,LOCATION variables)
