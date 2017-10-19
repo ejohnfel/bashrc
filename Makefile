@@ -1,6 +1,5 @@
 bashrcfiles = main.sh aliases.sh
 updateosfiles = head.txt main.sh tail.txt
-unattfiles = unattendedupdates.sh
 installfolder = /usr/local/bin
 
 all: bashrc updateos
@@ -18,7 +17,7 @@ update: bashrc
 automation: updateos
 ifeq "$(LOGNAME)" "root"
 	@cp updateos $(unattfiles) $(installfolder)
-	@chmod ug=rx $(installfolder)/updateos $(installfolder)/$(unattfiles)
+	@chmod ug=rx $(installfolder)/updateos
 else
 	@echo "You must be root to install"
 endif

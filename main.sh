@@ -1,9 +1,11 @@
-########################################################
+n########################################################
 # [AUTOMATED-INSERT-MARKER]
 # Author Eric Johnfelt
 # Date 5/5/2016
 
 declare -a UPDCMDS
+MYGITREP=ejohnfel
+BASHRCVERSION="0.1"
 ISNAT=0
 INTERNIP=`hostname -I`
 EXTERNIP="UNKNOWN"
@@ -11,6 +13,23 @@ FIXCHECK=""
 PREFIX=""
 LOCATION="internal"
 MYDOMAIN="digitalwicky.biz"
+
+# Clone Git Repositories From My Account
+function mygit()
+{
+	if [ "${1}" = "-h" ]; then
+		echo -e "mygit [clone|push] [repository]"
+		echo -e "Enviroment variable $MYGITREP points to username for Repositories"
+	else
+		case "${1}" in
+		"clone")	msg="Cloning from ${MYGITREP}/${2}..." ;;
+		"push")		msg="Pushing to ${MYGITREP}/${2}..." ;;
+		esac
+
+		echo -e "${msg}"
+		git ${1} https://github.com/${MYGITREP}/${2}
+	fi
+}
 
 # Determine Location of This Machine (and update MYDOMAIN,LOCATION variables)
 function DetermineLocation()
@@ -180,17 +199,22 @@ function allupdates()
 		index=$((${index} + 1))
 	done
 
-	if [ "$1" = "-r" -o "$1" = "-y" ]; then
-		${PREFIX} reboot
-	elif [ "$1" = "-h" ]; then
-		${PREFIX} shutdown -h now
+	if [ "$1" = "-w" ]; then
+		read -p "Reboot (y/n)? "
+		[ "${REPLY}" = "y" ] && ${PREFIX} reboot
+	elif [ "$1" = "-r" -o "$1" = "-y" ]; then
+		read -t 30 -p "Rebooting in 30s, abort (y/n)? "
+		[ ! "${REPLY}" = "y" ] && ${PREFIX} reboot
+	elif [ "$1" = "-h" -o "$1" = "-s" ]; then
+		read -t 30 -p "Shutdowning down in 30s, abort (y/n)? "
+		[ ! "${REPLY}" = "y" ] && ${PREFIX} shutdown -h now
 	else
 		read -t 60 -p "Reboot (y/N)? "
 
 		if [ "${REPLY}" = "y" -o "${REPLY}" = "Y" ]; then
 			${PREFIX} reboot
 		fi
-	fi	
+	fi
 }
 
 # Determine This Machines Location
