@@ -17,7 +17,7 @@ update: bashrc
 automation: updateos
 ifeq "$(LOGNAME)" "root"
 	@cp updateos $(unattfiles) $(installfolder)
-	@chmod ug=rx $(installfolder)/updateos
+	@chmod ugo=rx $(installfolder)/updateos
 else
 	@echo "You must be root to install"
 endif
