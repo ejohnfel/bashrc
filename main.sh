@@ -5,6 +5,7 @@
 
 declare -a UPDCMDS
 MYGITREP=ejohnfel
+BASHRCGIT=http://github.com/ejohnfel/bashrc
 BASHRCVERSION="0.1"
 ISNAT=0
 INTERNIP=`hostname -I`
@@ -35,6 +36,22 @@ function mygit()
 function mybash()
 {
 	echo -e "MyBASHRC Version : ${BASHRCVERSION}"
+}
+
+# Manual Update
+function updatemybash()
+{
+	git clone ${BASHRCGIT}
+
+	cd bashrc
+
+	make all
+	make update
+	sudo make install
+
+	cd ..
+
+	rm -Rf bashrc
 }
 
 # Determine Location of This Machine (and update MYDOMAIN,LOCATION variables)
