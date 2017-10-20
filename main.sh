@@ -53,6 +53,8 @@ function updatemybash()
 	cd ..
 
 	rm -Rf bashrc
+
+	source ~/.bashrc
 }
 
 # Determine Location of This Machine (and update MYDOMAIN,LOCATION variables)
