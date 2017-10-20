@@ -5,7 +5,7 @@
 
 declare -a UPDCMDS
 MYGITREP=ejohnfel
-BASHRCGIT=http://github.com/ejohnfel/bashrc
+BASHRCGIT="https://github.com/ejohnfel/bashrc"
 BASHRCVERSION="201710200438"
 ISNAT=0
 INTERNIP=`hostname -I`
@@ -45,7 +45,7 @@ function mybashrc()
 }
 
 # Manual Update
-function updatemybash()
+function updatemybashrc()
 {
 	pushd /tmp > /dev/null
 
