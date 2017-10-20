@@ -6,6 +6,8 @@
 # Date 5/5/2016
 
 declare -a UPDCMDS
+MYGITREP=ejohnfel
+BASHRCVERSION="0.1"
 ISNAT=0
 INTERNIP=`hostname -I`
 EXTERNIP="UNKNOWN"
@@ -13,6 +15,29 @@ FIXCHECK=""
 PREFIX=""
 LOCATION="internal"
 MYDOMAIN="digitalwicky.biz"
+
+# Clone Git Repositories From My Account
+function mygit()
+{
+	if [ "${1}" = "-h" ]; then
+		echo -e "mygit [clone|push] [repository]"
+		echo -e "Enviroment variable $MYGITREP points to username for Repositories"
+	else
+		case "${1}" in
+		"clone")	msg="Cloning from ${MYGITREP}/${2}..." ;;
+		"push")		msg="Pushing to ${MYGITREP}/${2}..." ;;
+		esac
+
+		echo -e "${msg}"
+		git ${1} https://github.com/${MYGITREP}/${2}
+	fi
+}
+
+# Stupid Tiny Function To Show BASHRC Version
+function mybash()
+{
+	echo -e "MyBASHRC Version : ${BASHRCVERSION}"
+}
 
 # Determine Location of This Machine (and update MYDOMAIN,LOCATION variables)
 function DetermineLocation()
@@ -163,14 +188,8 @@ function CheckForUpdates()
 	eval ${PREFIX} ${FIXCHECK}
 }
 
-# Run Unattended Updates
-function unattendedupdate()
-{
-	screen -DmS updates "/usr/local/bin/updateos -r" &
-}
-
 # Apply All Updates
-function update()
+function allupdates()
 {
 	PREFIX=""
 
@@ -188,7 +207,7 @@ function update()
 		index=$((${index} + 1))
 	done
 
-	if [ "${1}" = "-w" ]; then
+	if [ "$1" = "-w" ]; then
 		read -p "Reboot (y/n)? "
 		[ "${REPLY}" = "y" ] && ${PREFIX} reboot
 	elif [ "$1" = "-r" -o "$1" = "-y" ]; then
@@ -209,8 +228,4 @@ function update()
 # Determine This Machines Location
 DetermineLocation
 
-if [ "${1}" = "-u" ]; then
-	unattendedupdate
-else
-	update ${*}
-fi
+allupdates ${*}
