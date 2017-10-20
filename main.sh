@@ -47,6 +47,8 @@ function mybashrc()
 # Manual Update
 function updatemybash()
 {
+	pushd /tmp > /dev/null
+
 	mybashrc "Current Version"
 
 	git clone ${BASHRCGIT}
@@ -65,6 +67,8 @@ function updatemybash()
 	source ~/.bashrc
 
 	mybashrc "New Version"
+
+	popd > /dev/null
 }
 
 # Determine Location of This Machine (and update MYDOMAIN,LOCATION variables)
