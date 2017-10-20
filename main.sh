@@ -38,7 +38,7 @@ function mybashrc()
 	if [ "${1}" = "" ]; then
 		msg="MyBASHRC Version"
 	else
-		msg = "${1}"
+		msg = "${@}"
 	fi
 
 	echo -e "${msg} : ${BASHRCVERSION}"
