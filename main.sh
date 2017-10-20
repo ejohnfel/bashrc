@@ -45,6 +45,7 @@ function updatemybash()
 
 	cd bashrc
 
+	touch main.sh aliases.sh
 	make all
 	make update
 	sudo make install
