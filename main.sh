@@ -55,7 +55,7 @@ function updatemybashrc()
 
 	cd bashrc
 
-	touch main.sh aliases.sh
+	make clean
 	make all
 	make update
 	sudo make automation
