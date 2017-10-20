@@ -33,14 +33,22 @@ function mygit()
 }
 
 # Stupid Tiny Function To Show BASHRC Version
-function mybash()
+function mybashrc()
 {
-	echo -e "MyBASHRC Version : ${BASHRCVERSION}"
+	if [ "${1}" = "" ]; then
+		msg="MyBASHRC Version"
+	else
+		msg = "${1}"
+	fi
+
+	echo -e "${msg} : ${BASHRCVERSION}"
 }
 
 # Manual Update
 function updatemybash()
 {
+	mybashrc "Current Version"
+
 	git clone ${BASHRCGIT}
 
 	cd bashrc
@@ -55,6 +63,8 @@ function updatemybash()
 	rm -Rf bashrc
 
 	source ~/.bashrc
+
+	mybashrc "New Version"
 }
 
 # Determine Location of This Machine (and update MYDOMAIN,LOCATION variables)
