@@ -31,6 +31,12 @@ function mygit()
 	fi
 }
 
+# Stupid Tiny Function To Show BASHRC Version
+function mybash()
+{
+	echo -e "MyBASHRC Version : ${BASHRCVERSION}"
+}
+
 # Determine Location of This Machine (and update MYDOMAIN,LOCATION variables)
 function DetermineLocation()
 {
