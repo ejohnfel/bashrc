@@ -6,7 +6,7 @@
 declare -a UPDCMDS
 MYGITREP=ejohnfel
 BASHRCGIT=http://github.com/ejohnfel/bashrc
-BASHRCVERSION="0.1"
+BASHRCVERSION="201710200438"
 ISNAT=0
 INTERNIP=`hostname -I`
 EXTERNIP="UNKNOWN"
