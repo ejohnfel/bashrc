@@ -1,5 +1,5 @@
 bashrcfiles = main.sh aliases.sh
-updateosfiles = head.txt main.sh tail.txt
+updateosfiles = head.txt main.sh updos.sh tail.txt
 installfolder = /usr/local/bin
 
 all: bashrc updateos
