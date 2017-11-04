@@ -29,7 +29,7 @@ function SSHSetup()
 			ssh-add ~/.ssh/id_rsa.home
 		fi
 
-		if -[ -e ~/.ssh/id_rsa.work ]; then
+		if [ -e ~/.ssh/id_rsa.work ]; then
 			ssh-add ~/.ssh/id_rsa.work
 		fi
 	fi
