@@ -18,7 +18,7 @@ MYDOMAIN="digitalwicky.biz"
 # SSH Setup Stuff
 function SSHSetup()
 {
-	if [ "${SSH_AGENT_PID}" = "" -a "${SSH_AUTH_SOCK}" = "" ];; then
+	if [ "${SSH_AGENT_PID}" = "" -a "${SSH_AUTH_SOCK}" = "" ]; then
 		eval `ssh-agent`
 
 		if [ -e ~/.ssh/id_rsa ]; then
