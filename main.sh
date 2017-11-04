@@ -15,6 +15,24 @@ PREFIX=""
 LOCATION="internal"
 MYDOMAIN="digitalwicky.biz"
 
+# SSH Setup Stuff
+function SSHSetup()
+{
+	eval `ssh-agent`
+
+	if [ -e ~/.ssh/id_rsa ]; then
+		ssh-add
+	fi
+
+	if [ -e ~/.ssh/id_rsa.home ]; then
+		ssh-add ~/.ssh/id_rsa.home
+	fi
+
+	if -[ -e ~/.ssh/id_rsa.work ]; then
+		ssh-add ~/.ssh/id_rsa.work
+	fi
+}
+
 # Clone Git Repositories From My Account
 function mygit()
 {
