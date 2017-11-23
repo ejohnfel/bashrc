@@ -19,7 +19,6 @@ ifeq "$(LOGNAME)" "root"
 	@cp updateos $(unattfiles) $(installfolder)
 	@chmod ugo=rx $(installfolder)/updateos
 else
-	@echo "You must have SUDO privileges to complete this part of the install"
 	@sudo cp updateos $(unattfiles) $(installfolder)
 	@sudo chmod ugo=rx,o-w $(installfolder)/updateos
 endif
