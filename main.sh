@@ -34,7 +34,7 @@ function SSHSetup()
 	# Check for running SSH-AGENT
 	if [ $? = 0 ]; then
 		# Agent running, get PID
-		PID=$(cut -d" " -f1 | head -n 1)
+		PID=$(cut -d" " -f1 "${TMP}" | head -n 1)
 		SSH_AGENT_PID=${PID}
 		export SSH_AGENT_PID
 		NOAGENT=0
