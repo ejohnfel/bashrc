@@ -18,7 +18,31 @@ MYDOMAIN="digitalwicky.biz"
 # SSH Setup Stuff
 function SSHSetup()
 {
-	if [ "${SSH_AGENT_PID}" = "" -a "${SSH_AUTH_SOCK}" = "" ]; then
+	NOAGENT=1
+
+	# Early Exit COnditions
+	# If root or one of the big ENV variables exists, do not run
+	[ "${LOGNAME}" = "root" ] && return
+	[ ! "${SSH_AGENT_PID}" = "" ] && return
+	[ ! "${SSH_AUTH_SOCK}" = "" ] && return
+
+	TMP=/tmp/tmp.${RANDOM}
+
+	# Check for existing SSH-AGENT, no need to run more if user is already running one
+	ps -u "${LOGNAME}" | grep "ssh-agent" > ${TMP}
+
+	# Check for running SSH-AGENT
+	if [ $? = 0 ]; then
+		# Agent running, get PID
+		PID=$(cut -d" " -f1 | head -n 1)
+		SSH_AGENT_PID=${PID}
+		export SSH_AGENT_PID
+		NOAGENT=0
+	fi
+
+	[ -e ${TMP} ] && rm ${TMP}
+
+	if [ ${NOAGENT} = 1 ]; then
 		eval `ssh-agent`
 
 		if [ -e ~/.ssh/id_rsa ]; then
