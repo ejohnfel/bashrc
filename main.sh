@@ -15,10 +15,12 @@ PREFIX=""
 LOCATION="internal"
 MYDOMAIN="digitalwicky.biz"
 
-# Check for Updates
-function chkupd()
+# Set prefix
+function SetPrefix()
 {
-	${PREFIX} apt-get --just-print upgrade
+	if [ ! "${LOGNAME}" = "root" ]; then
+		PREFIX="sudo"
+	fi
 }
 
 # SSH Setup Stuff
@@ -202,7 +204,7 @@ function GetPackageManager()
 	apt-get --version > /dev/null
 
 	if [ $? = 0 ]; then
-		FIXCHECK="apt-get --assume-no upgrade"
+		FIXCHECK="apt-get --just-print upgrade | grep \"upgraded,\""
 		UPDCMDS[0]="apt-get update"
 		UPDCMDS[1]="apt-get -y upgrade"
 		UPDCMDS[2]="apt-get -y dist-upgrade"
@@ -251,20 +253,19 @@ function GetPackageManager()
 # Update Package Manager's Database
 function UpdateManagerDatabase()
 {
-	PREFIX=""
-
-	if [ ! "${LOGNAME}" = "root" ]; then
-		PREFIX=sudo
-	fi
+	SetPrefix
 
 	GetPackageManager
 
-	eval ${PREFIX} ${UPDCMDS[0]}
+	echo "Updating Package Manager Database..."
+	eval ${PREFIX} ${UPDCMDS[0]} > /dev/null
 }
 
 # Check for Existing Updates
 function CheckForUpdates()
 {
+	SetPrefix
+
 	UpdateManagerDatabase
 
 	eval ${PREFIX} ${FIXCHECK}
