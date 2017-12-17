@@ -15,6 +15,12 @@ PREFIX=""
 LOCATION="internal"
 MYDOMAIN="digitalwicky.biz"
 
+# Check for Updates
+function chkupd()
+{
+	${PREFIX} apt-get --just-print upgrade
+}
+
 # SSH Setup Stuff
 function SSHSetup()
 {

@@ -25,8 +25,7 @@ function UpdateOS()
 	fi
 
 	if [ "$1" = "-c" ]; then
-		# Check for updates 'apt-get --just-print upgrade'
-		echo "Not implemented yet"
+		chkupd
 	elif [ "$1" = "-w" ]; then
 		read -p "Reboot (y/n)? "
 		[ "${REPLY}" = "y" ] && ${PREFIX} reboot
