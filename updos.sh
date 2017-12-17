@@ -14,15 +14,20 @@ function UpdateOS()
 
 	GetPackageManager
 
-	cmds=${#UPDCMDS[*]}
-	index=0
+	if [ ! "$1" = "-c" ]; then
+		cmds=${#UPDCMDS[*]}
+		index=0
 
-	while [ ${index} -lt ${cmds} ]; do
-		eval ${PREFIX} ${UPDCMDS[${index}]}
-		index=$((${index} + 1))
-	done
+		while [ ${index} -lt ${cmds} ]; do
+			eval ${PREFIX} ${UPDCMDS[${index}]}
+			index=$((${index} + 1))
+		done
+	fi
 
-	if [ "$1" = "-w" ]; then
+	if [ "$1" = "-c" ]; then
+		# Check for updates 'apt-get --just-print upgrade'
+		echo "Not implemented yet"
+	elif [ "$1" = "-w" ]; then
 		read -p "Reboot (y/n)? "
 		[ "${REPLY}" = "y" ] && ${PREFIX} reboot
 	elif [ "$1" = "-r" -o "$1" = "-y" ]; then
