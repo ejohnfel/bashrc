@@ -205,10 +205,10 @@ function GetPackageManager()
 
 	if [ $? = 0 ]; then
 		FIXCHECK="apt-get --just-print upgrade | grep \"upgraded,\""
-		UPDCMDS[0]="apt-get update"
-		UPDCMDS[1]="apt-get -y upgrade"
-		UPDCMDS[2]="apt-get -y dist-upgrade"
-		UPDCMDS[3]="apt-get -y autoremove"
+		UPDCMDS[0]="apt-get -qq update"
+		UPDCMDS[1]="apt-get -qq -y upgrade"
+		UPDCMDS[2]="apt-get -qq -y dist-upgrade"
+		UPDCMDS[3]="apt-get -qq -y autoremove"
 
 		return 1
 	fi
