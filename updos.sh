@@ -15,6 +15,7 @@ function UpdateOS()
 	GetPackageManager
 
 	if [ ! "$1" = "-c" ]; then
+		echo -e "Beginning Update of ${HOSTNAME}..."
 		cmds=${#UPDCMDS[*]}
 		index=0
 
