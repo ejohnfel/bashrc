@@ -1,7 +1,7 @@
 ########################################################
 # [AUTOMATED-INSERT-MARKER]
 # Author Eric Johnfelt
-# Date 5/5/2016
+# Date 6/22/2018
 
 declare -a UPDCMDS
 MYGITREP=ejohnfel
