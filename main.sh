@@ -14,6 +14,7 @@ FIXCHECK=""
 PREFIX=""
 LOCATION="internal"
 MYDOMAIN="digitalwicky.biz"
+SAYINGS="/srv/storage/data/waiting.txt"
 
 # Set prefix
 function SetPrefix()
@@ -121,6 +122,12 @@ function updatemybashrc()
 	mybashrc "New Version"
 
 	popd > /dev/null
+}
+
+# If Syaings/Waitings File Exists, Print A Random Line From File
+function RandomSaying()
+{
+	[ -e "${SAYINGS}" ] && shuf -n1 "${SAYINGS}"
 }
 
 # Determine Location of This Machine (and update MYDOMAIN,LOCATION variables)
@@ -283,3 +290,6 @@ DetermineLocation
 
 # Setup SSH Agent
 SSHSetup
+
+# Sayings
+RandomSaying
