@@ -298,7 +298,7 @@ function screens()
 			egrep "^\s*#\s*title\s" "${item}" > /dev/null
 
 			if [ $? -eq 0 ]; then
-				title=$(grep "^\s*#\s*title\s" "${item}" | tr -s " " | cut -d3-)
+				title=$(grep "^\s*#\s*title\s" "${item}" | tr -s " " | cut -d" " -f3-)
 			fi
 
 			printf "%-20s %s" "${title}" "${item}"
