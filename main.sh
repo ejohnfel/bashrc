@@ -303,6 +303,19 @@ function screens()
 
 			printf "%-45s %s\n" "${title}" "${item}"
 		done
+	elif [ "${1}" = "-e" ]; then
+                select item in ${possibles} Quit; do
+                        if [ ${item} = "Quit" ]; then
+                                break
+                        else
+                                selected="${item}"
+                                break;
+                        fi
+                done
+
+                if [ ! "${selected}" = "" ]; then
+                        nano "${selected}"
+                fi
 	elif [ "${1}" = "" ]; then
 		select item in ${possibles} Quit; do
 			if [ ${item} = "Quit" ]; then
