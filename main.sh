@@ -324,7 +324,7 @@ function rmupdates()
 # List My Functions
 function myfuncs()
 {
-	compgen -A functions | egrep -v "^_|^quote$|^quote_|^command_not"
+	compgen -A function | egrep -v "^_|^quote$|^quote_|^command_not"
 }
 
 # Determine This Machines Location
