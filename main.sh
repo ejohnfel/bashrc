@@ -285,8 +285,8 @@ function allupdates()
 	updateos ${@}
 }
 
-# Remote Updates
-function rmupdates()
+# Select Screen RC
+function screens()
 {
 	possibles=$(egrep -s -l "^screen -t" ~/.*)
 	selected=""
