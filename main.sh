@@ -285,6 +285,48 @@ function allupdates()
 	updateos ${@}
 }
 
+# Remote Updates
+function rmupdates()
+{
+	possibles=$(egrep -s -l "^screen -t" ~/.*)
+	selected=""
+
+	if [ "${1}" = "-l" ]; then
+		printf "%-20s %s" "Title" "Config File"
+		for item in ${possibles}; do
+			title="None"
+			egrep "^\s*#\s*title\s" "${item}" > /dev/null
+
+			if [ $? -eq 0 ]; then
+				title=$(grep "^\s*#\s*title\s" "${item}" | tr -s " " | cut -d3-)
+			fi
+
+			printf "%-20s %s" "${title}" "${item}"
+		done
+	elif [ "${1}" = "" ]; then
+		select item in ${possibles} Quit; do
+			if [ ${item} = "Quit" ]; then
+				break
+			else
+				selected="${item}"
+				break;
+			fi
+		done
+
+		if [ ! "${selected}" = "" ]; then
+			screen -c "${selected}"
+		fi
+	else
+		screen -c "${1}"
+	fi
+}
+
+# List My Functions
+function myfuncs()
+{
+	compgen -A functions | egrep -v "^_|^quote$|^quote_|^command_not"
+}
+
 # Determine This Machines Location
 DetermineLocation
 
