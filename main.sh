@@ -292,7 +292,7 @@ function screens()
 	selected=""
 
 	if [ "${1}" = "-l" ]; then
-		printf "%-20s %s\n" "Title" "Config File"
+		printf "%-20s %s\\n" "Title" "Config File"
 		for item in ${possibles}; do
 			title="None"
 			egrep "^\s*#\s*title\s" "${item}" > /dev/null
@@ -301,7 +301,7 @@ function screens()
 				title=$(grep "^\s*#\s*title\s" "${item}" | tr -s " " | cut -d" " -f3-)
 			fi
 
-			printf "%-20s %s\n" "${title}" "${item}\"
+			printf "%-20s %s\\n" "${title}" "${item}\"
 		done
 	elif [ "${1}" = "" ]; then
 		select item in ${possibles} Quit; do
