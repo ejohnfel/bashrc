@@ -288,7 +288,7 @@ function allupdates()
 # Select Screen RC
 function screens()
 {
-	possibles=$(egrep -s -l "^screen -t" ~/.*)
+	possibles=$(egrep -s -l --exclude=".bash*" "^screen -t" ~/.*)
 	selected=""
 
 	if [ "${1}" = "-l" ]; then
