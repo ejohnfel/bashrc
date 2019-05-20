@@ -339,7 +339,7 @@ function screens()
 function Snip()
 {
 	if [ "${3}" = "" ]; then
-		grep -E "${2}" "${1}" | head -n 1 | cut -d":" -f2- | cut -d" " -f2
+		grep -E "${2}" "${1}" | head -n 1 | cut -d":" -f2- | cut -d" " -f2-
 	else
 		grep -A ${3} -E "${2}" "${1}" | grep -E "${4}" | head -n 1 | cut -d":" -f2- | cut -d" " -f2-
 	fi
@@ -383,8 +383,6 @@ function HostInfo()
 	printf "memory,%s\n" "${MEM}" | tee -a ${output}
 	printf "mac-address,%s\n" "${MAC_ADDRESS}" | tee -a ${output}
 	printf "comment,%s\n" "${USER_COMMENT}" | tee -a ${output}
-
-	[ -f ${output} ] && cat ${output}
 
 	[ -e ${tmp} ] && rm ${tmp}
 }
