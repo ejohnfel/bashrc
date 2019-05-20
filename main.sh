@@ -6,7 +6,7 @@
 declare -a UPDCMDS
 MYGITREP=ejohnfel
 BASHRCGIT="https://github.com/ejohnfel/bashrc"
-BASHRCVERSION="201905201330"
+BASHRCVERSION="201905201331"
 ISNAT=0
 INTERNIP=`hostname -I`
 EXTERNIP="UNKNOWN"
@@ -341,7 +341,7 @@ function Snip()
 	if [ "${3}" = "" ]; then
 		grep -E "${2}" "${1}" | head -n 1 | cut -d":" -f2- | cut -d" " -f2
 	else
-		grep -E "${2}" "${1}" | grep -E "${4}" | head -n 1 | cut -d":" -f2- | cut -d " " -f2-
+		grep -A ${3} -E "${2}" "${1}" | grep -E "${4}" | head -n 1 | cut -d":" -f2- | cut -d" " -f2-
 	fi
 }
 
@@ -379,7 +379,7 @@ function HostInfo()
 	printf "serial-number,%s\n" "${SERIAL_NUMBER}" | tee -a ${output}
 	printf "hw-version,%s\n" "${HWVERSION}" | tee -a ${output}
 	printf "bus-width,%s\n" "${WIDTH}" | tee -a ${output}
-	printf "spu,%s\n" "${CPU}" | tee -a ${output}
+	printf "cpu,%s\n" "${CPU}" | tee -a ${output}
 	printf "memory,%s\n" "${MEM}" | tee -a ${output}
 	printf "mac-address,%s\n" "${MAC_ADDRESS}" | tee -a ${output}
 	printf "comment,%s\n" "${USER_COMMENT}" | tee -a ${output}
