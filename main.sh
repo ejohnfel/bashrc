@@ -6,7 +6,7 @@
 declare -a UPDCMDS
 MYGITREP=ejohnfel
 BASHRCGIT="https://github.com/ejohnfel/bashrc"
-BASHRCVERSION="201905201329"
+BASHRCVERSION="201905201330"
 ISNAT=0
 INTERNIP=`hostname -I`
 EXTERNIP="UNKNOWN"
@@ -373,16 +373,16 @@ function HostInfo()
 	MEM=$(Snip ${tmp} "^\s+\*-memory" 4 "^\s+size:")
 	MAC_ADDRESS=$(Snip ${tmp} "\s+\*-network" 5 "^\s+serial:")
 
-	printf "%s\n" "${DESCRIPTION}" | tee ${output}
-	printf "%s\n" "${PRODUCT}" | tee -a ${output}
-	printf "%s\n" "${VENDOR}" | tee -a ${output}
-	printf "%s\n" "${SERIAL_NUMBER}" | tee -a ${output}
-	printf "%s\n" "${HWVERSION}" | tee -a ${output}
-	printf "%s\n" "${WIDTH}" | tee -a ${output}
-	printf "%s\n" "${CPU}" | tee -a ${output}
-	printf "%s\n" "${MEM}" | tee -a ${output}
-	printf "%s\n" "${MAC_ADDRESS}" | tee -a ${output}
-	printf "%s\n" "${USER_COMMENT}" | tee -a ${output}
+	printf "description,%s\n" "${DESCRIPTION}" | tee ${output}
+	printf "product,%s\n" "${PRODUCT}" | tee -a ${output}
+	printf "vendor,%s\n" "${VENDOR}" | tee -a ${output}
+	printf "serial-number,%s\n" "${SERIAL_NUMBER}" | tee -a ${output}
+	printf "hw-version,%s\n" "${HWVERSION}" | tee -a ${output}
+	printf "bus-width,%s\n" "${WIDTH}" | tee -a ${output}
+	printf "spu,%s\n" "${CPU}" | tee -a ${output}
+	printf "memory,%s\n" "${MEM}" | tee -a ${output}
+	printf "mac-address,%s\n" "${MAC_ADDRESS}" | tee -a ${output}
+	printf "comment,%s\n" "${USER_COMMENT}" | tee -a ${output}
 
 	[ -f ${output} ] && cat ${output}
 
