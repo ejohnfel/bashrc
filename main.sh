@@ -341,7 +341,7 @@ function Snip()
 	if [ "${3}" = "" ]; then
 		grep -E "${2}" "${1}" | head -n 1 | cut -d":" -f2- | cut -d" " -f2
 	else
-		grep -E "${2}" "${1}" | grep -E "${4}" | head -n 1 | cut -d":" -f2- | cut -d " " -f2- 
+		grep -E "${2}" "${1}" | grep -E "${4}" | head -n 1 | cut -d":" -f2- | cut -d " " -f2-
 	fi
 }
 
@@ -366,25 +366,25 @@ function HostInfo()
 	SERIAL_NUMBER=$(Snip ${tmp} "^\s+serial:")
 	DESCRIPTION=$(Snip ${tmp} "^\s+description:")
 	PRODUCT=$(Snip ${tmp} "^\s+product:")
-	VENDOR=${Snip ${tmp} "^\s+vendor:")
+	VENDOR=$(Snip ${tmp} "^\s+vendor:")
 	HWVERSION=$(Snip ${tmp} "^\s+version:")
 	WIDTH=$(Snip ${tmp} "^\s+width:")
 	CPU=$(Snip ${tmp} "^\s+\*-cpu" 10 "^\s+product:")
 	MEM=$(Snip ${tmp} "^\s+\*-memory" 4 "^\s+size:")
 	MAC_ADDRESS=$(Snip ${tmp} "\s+\*-network" 5 "^\s+serial:")
 
-	printf "%s\n" "${DESCRIPTION}"
-	printf "%s\n" "${PRODUCT}"
-	printf "%s\n" "${VENDOR}"
-	printf "%s\n" "${SERIAL_NUMBER}"
-	printf "%s\n" "${HWVERSION}"
-	printf "%s\n" "${WIDTH}"
-	printf "%s\n" "${CPU}"
-	printf "%s\n" "${MEM}"
-	printf "%s\n" "${MAC_ADDRESS}"
-	printf "%s\n" "${USER_COMMENT}"
+	printf "%s\n" "${DESCRIPTION}" | tee ${output}
+	printf "%s\n" "${PRODUCT}" | tee -a ${output}
+	printf "%s\n" "${VENDOR}" | tee -a ${output}
+	printf "%s\n" "${SERIAL_NUMBER}" | tee -a ${output}
+	printf "%s\n" "${HWVERSION}" | tee -a ${output}
+	printf "%s\n" "${WIDTH}" | tee -a ${output}
+	printf "%s\n" "${CPU}" | tee -a ${output}
+	printf "%s\n" "${MEM}" | tee -a ${output}
+	printf "%s\n" "${MAC_ADDRESS}" | tee -a ${output}
+	printf "%s\n" "${USER_COMMENT}" | tee -a ${output}
 
-	cat ${output}
+	[ -f ${output} ] && cat ${output}
 
 	[ -e ${tmp} ] && rm ${tmp}
 }
@@ -404,5 +404,5 @@ SSHSetup
 # Sayings
 RandomSaying
 
-# Only useful when "hollywood"  or mplayer is installed
+# Only useful when 'hollywood' and/or mplayer is installed
 alias mi="mplayer -vo caca /srv/storage/media/music/Soundtracks/mi.mp4"
