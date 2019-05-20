@@ -6,7 +6,7 @@
 declare -a UPDCMDS
 MYGITREP=ejohnfel
 BASHRCGIT="https://github.com/ejohnfel/bashrc"
-BASHRCVERSION="201809221024"
+BASHRCVERSION="201905201328"
 ISNAT=0
 INTERNIP=`hostname -I`
 EXTERNIP="UNKNOWN"
@@ -334,6 +334,61 @@ function screens()
 	fi
 }
 
+# Snip Data From lshw Tmp File
+# Parameters: tmpfile expr [includelines] [includeexpr]
+function Snip()
+{
+	if [ "${3}" = "" ]; then
+		grep -E "${2}" "${1}" | head -n 1 | cut -d":" -f2- | cut -d" " -f2
+	else
+		grep -E "${2}" "${1}" | grep -E "${4}" | head -n 1 | cut -d":" -f2- | cut -d " " -f2- 
+	fi
+}
+
+# HostInfo : Get Info about host
+function HostInfo()
+{
+	local tmp=/tmp/tmp.${RANDOM}
+	local output="hostinfo.txt"
+
+	# Collect MAC, serial, dmi info
+
+	lshw > /dev/null 2>&1
+
+	if [ $? -gt 0 ]; then
+		sudo apt-get -y install lshw > /dev/null 2>1&
+	fi
+
+	read -p "Comment: " USER_COMMENT
+
+	sudo lshw > ${tmp}
+
+	SERIAL_NUMBER=$(Snip ${tmp} "^\s+serial:")
+	DESCRIPTION=$(Snip ${tmp} "^\s+description:")
+	PRODUCT=$(Snip ${tmp} "^\s+product:")
+	VENDOR=${Snip ${tmp} "^\s+vendor:")
+	HWVERSION=$(Snip ${tmp} "^\s+version:")
+	WIDTH=$(Snip ${tmp} "^\s+width:")
+	CPU=$(Snip ${tmp} "^\s+\*-cpu" 10 "^\s+product:")
+	MEM=$(Snip ${tmp} "^\s+\*-memory" 4 "^\s+size:")
+	MAC_ADDRESS=$(Snip ${tmp} "\s+\*-network" 5 "^\s+serial:")
+
+	printf "%s\n" "${DESCRIPTION}"
+	printf "%s\n" "${PRODUCT}"
+	printf "%s\n" "${VENDOR}"
+	printf "%s\n" "${SERIAL_NUMBER}"
+	printf "%s\n" "${HWVERSION}"
+	printf "%s\n" "${WIDTH}"
+	printf "%s\n" "${CPU}"
+	printf "%s\n" "${MEM}"
+	printf "%s\n" "${MAC_ADDRESS}"
+	printf "%s\n" "${USER_COMMENT}"
+
+	cat ${output}
+
+	[ -e ${tmp} ] && rm ${tmp}
+}
+
 # List My Functions
 function myfuncs()
 {
@@ -348,3 +403,6 @@ SSHSetup
 
 # Sayings
 RandomSaying
+
+# Only useful when "hollywood"  or mplayer is installed
+alias mi="mplayer -vo caca /srv/storage/media/music/Soundtracks/mi.mp4"
