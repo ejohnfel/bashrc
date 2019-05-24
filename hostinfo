@@ -1,0 +1,134 @@
+#!/bin/bash
+
+# csv, html, xml, json
+OUTPUT_FORMAT="csv"
+
+# Output Header for selected output Format
+# Parameters : [file]
+function Header()
+{
+	case ${OUTPUT_FORMAT} in
+	"csv")
+		[ -f "${1}" ] && rm "${1}"
+		;;
+	"html")
+		printf "<html>\n<body><table><tr><th>Field</th><th>Value</th></tr>\n" > "${1}"
+		;;
+	"xml")
+		printf "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<fields>\n" > "${1}"
+		;;
+	"json")
+		printf "{ " > "${1}"
+		;;
+	esac
+}
+
+# Output Data Tuple for selected output format
+# Parameters: [file] [tag] [value]
+function Data()
+{
+	OUTPUT="${1}"
+	shift 1
+
+	case ${OUTPUT_FORMAT} in
+	"csv")
+		printf "%s," "${2}" >> "${OUTPUT}"
+		shift 1
+		printf "%s\n" "${*}" >> "${OUTPUT}"
+		;;
+	"html")
+		printf "<tr><td>%s</td><td>" "${2}" >> "${OUTPUT}"
+		shift 1
+		printf "%s</td></tr>\n" "${*}" >> "${OUTPUT}"
+		;;
+	"xml")
+		printf "<field name=\"%s\">" "${2}" >> "${OUTPUT}"
+		shift 1
+		printf "%s</field>\n" "${*}" >> "${OUTPUT}"
+		;;
+	"json")
+		printf "{ %s ," "${2}" >> "${OUTPUT}"
+		shift 1
+		printf " %s }\n" "${*}" >> "${OUTPUT}"
+	esac
+}
+
+# Output Trailer for selected output format
+# Parameters: [file]
+function Trailer()
+{
+	case ${OUTPUT_FORMAT} in
+	"csv")
+		;;
+	"html")
+		printf "</body>\n</html>\n" >> "${1}"
+		;;
+	"xml")
+		printf "<fields>\n" >> "${1}"
+		;;
+	"json")
+		printf " }\n" >> "${1}"
+		;;
+	esac
+}
+
+# Parameters: tmpfile expr [includelines] [includeexpr]
+function Snip()
+{
+        if [ "${3}" = "" ]; then
+                grep -E "${2}" "${1}" | head -n 1 | cut -d":" -f2- | cut -d" " -f2-
+        else
+                grep -A ${3} -E "${2}" "${1}" | grep -E "${4}" | head -n 1 | cut -d":" -f2- | cut -d" " -f2-
+        fi
+}
+
+# HostInfo : Get Info about host
+function HostInfo()
+{
+        local tmp=/tmp/tmp.${RANDOM}
+        local output="hostinfo.txt"
+
+	Header "${output}"
+
+        # Collect MAC, serial, dmi info
+
+        lshw > /dev/null 2>&1
+
+        if [ $? -gt 0 ]; then
+                sudo apt-get -y install lshw > /dev/null 2>1&
+        fi
+
+        read -p "Comment: " USER_COMMENT
+
+        sudo lshw > ${tmp}
+
+        SERIAL_NUMBER=$(Snip ${tmp} "^\s+serial:")
+        DESCRIPTION=$(Snip ${tmp} "^\s+description:")
+        PRODUCT=$(Snip ${tmp} "^\s+product:")
+        VENDOR=$(Snip ${tmp} "^\s+vendor:")
+        HWVERSION=$(Snip ${tmp} "^\s+version:")
+        WIDTH=$(Snip ${tmp} "^\s+width:")
+        CPU=$(Snip ${tmp} "^\s+\*-cpu" 10 "^\s+product:")
+        MEM=$(Snip ${tmp} "^\s+\*-memory" 4 "^\s+size:")
+        MAC_ADDRESS=$(Snip ${tmp} "\s+\*-network" 5 "^\s+serial:")
+
+	Data "${output}" "host" "${HOSTNAME}"
+	Data "${output}" "comment" "${USER_COMMENT}"
+	Data "${output}" "description"
+	Data "${output}" "product" "${PRODUCT}"
+	Data "${output}" "vendor" "${VENDOR}"
+	Data "${output}" "serial-number" "${SERIAL_NUMBER}"
+	Data "${output}" "hw-version" "${HWVERSION}"
+	Data "${output}" "bus-width" "${WIDTH}"
+	Data "${output}" "cpu" "${CPU}"
+	Data "${output}" "memory" "${MEM}"
+	Data "${output}" "mac-addresses" "${MAC_ADDRESS}"
+
+	Trailer "${output}"
+
+	[ -e "${output}" ] && cat "${output}"
+
+        [ -e ${tmp} ] && rm ${tmp}
+}
+
+HostInfo

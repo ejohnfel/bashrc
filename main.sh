@@ -6,7 +6,7 @@
 declare -a UPDCMDS
 MYGITREP=ejohnfel
 BASHRCGIT="https://github.com/ejohnfel/bashrc"
-BASHRCVERSION="201905201331"
+BASHRCVERSION="201905240000"
 ISNAT=0
 INTERNIP=`hostname -I`
 EXTERNIP="UNKNOWN"
@@ -220,6 +220,13 @@ function GetPackageManager()
 		return 1
 	fi
 
+	yum --version > /dev/null
+
+	if [ $? = 0 ]; then
+		FIXCHECK="yum check-update"
+		UPCMDS=( "yum check-update" "yum -y update" "yum -y upgrade" "yum -y autoremove" )
+	fi
+
 	pacman --version
 
 	if [ $? = 0 ]; then
@@ -332,59 +339,6 @@ function screens()
 	else
 		screen -c "${1}"
 	fi
-}
-
-# Snip Data From lshw Tmp File
-# Parameters: tmpfile expr [includelines] [includeexpr]
-function Snip()
-{
-	if [ "${3}" = "" ]; then
-		grep -E "${2}" "${1}" | head -n 1 | cut -d":" -f2- | cut -d" " -f2-
-	else
-		grep -A ${3} -E "${2}" "${1}" | grep -E "${4}" | head -n 1 | cut -d":" -f2- | cut -d" " -f2-
-	fi
-}
-
-# HostInfo : Get Info about host
-function HostInfo()
-{
-	local tmp=/tmp/tmp.${RANDOM}
-	local output="hostinfo.txt"
-
-	# Collect MAC, serial, dmi info
-
-	lshw > /dev/null 2>&1
-
-	if [ $? -gt 0 ]; then
-		sudo apt-get -y install lshw > /dev/null 2>1&
-	fi
-
-	read -p "Comment: " USER_COMMENT
-
-	sudo lshw > ${tmp}
-
-	SERIAL_NUMBER=$(Snip ${tmp} "^\s+serial:")
-	DESCRIPTION=$(Snip ${tmp} "^\s+description:")
-	PRODUCT=$(Snip ${tmp} "^\s+product:")
-	VENDOR=$(Snip ${tmp} "^\s+vendor:")
-	HWVERSION=$(Snip ${tmp} "^\s+version:")
-	WIDTH=$(Snip ${tmp} "^\s+width:")
-	CPU=$(Snip ${tmp} "^\s+\*-cpu" 10 "^\s+product:")
-	MEM=$(Snip ${tmp} "^\s+\*-memory" 4 "^\s+size:")
-	MAC_ADDRESS=$(Snip ${tmp} "\s+\*-network" 5 "^\s+serial:")
-
-	printf "description,%s\n" "${DESCRIPTION}" | tee ${output}
-	printf "product,%s\n" "${PRODUCT}" | tee -a ${output}
-	printf "vendor,%s\n" "${VENDOR}" | tee -a ${output}
-	printf "serial-number,%s\n" "${SERIAL_NUMBER}" | tee -a ${output}
-	printf "hw-version,%s\n" "${HWVERSION}" | tee -a ${output}
-	printf "bus-width,%s\n" "${WIDTH}" | tee -a ${output}
-	printf "cpu,%s\n" "${CPU}" | tee -a ${output}
-	printf "memory,%s\n" "${MEM}" | tee -a ${output}
-	printf "mac-address,%s\n" "${MAC_ADDRESS}" | tee -a ${output}
-	printf "comment,%s\n" "${USER_COMMENT}" | tee -a ${output}
-
-	[ -e ${tmp} ] && rm ${tmp}
 }
 
 # List My Functions

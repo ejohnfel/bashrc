@@ -25,4 +25,7 @@ endif
 
 clean:
 	@echo "Cleaning created files"
-	@rm bashrc updateos
+	@[ -e bashrc ] && rm basrhc || true
+	@[ -e updateos ] && rm updateos || true
+	@[ -e hostinfo.txt ] && rm hostinfo.txt || true
+	@[ -e output.txt ] && rm output.txt || true
