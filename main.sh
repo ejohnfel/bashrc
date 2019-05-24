@@ -6,7 +6,7 @@
 declare -a UPDCMDS
 MYGITREP=ejohnfel
 BASHRCGIT="https://github.com/ejohnfel/bashrc"
-BASHRCVERSION="201905240001"
+BASHRCVERSION="201905240002"
 ISNAT=0
 INTERNIP=`hostname -I`
 EXTERNIP="UNKNOWN"
@@ -224,7 +224,7 @@ function GetPackageManager()
 
 	if [ $? = 0 ]; then
 		FIXCHECK="yum check-update"
-		UPCMDS=( "yum check-update" "yum -y update" "yum -y upgrade" "yum -y autoremove" )
+		UPDCMDS=( "yum check-update" "yum -y update" "yum -y upgrade" "yum -y autoremove" )
 
 		return 1
 	fi
