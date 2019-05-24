@@ -208,7 +208,7 @@ function isnat()
 # Determine Package Manager
 function GetPackageManager()
 {
-	apt-get --version > /dev/null
+	apt-get --version > /dev/null 2>&1
 
 	if [ $? = 0 ]; then
 		FIXCHECK="apt-get --just-print upgrade | grep \"upgraded,\""
@@ -220,30 +220,32 @@ function GetPackageManager()
 		return 1
 	fi
 
-	yum --version > /dev/null
+	yum --version > /dev/null 2>&1
 
 	if [ $? = 0 ]; then
 		FIXCHECK="yum check-update"
 		UPCMDS=( "yum check-update" "yum -y update" "yum -y upgrade" "yum -y autoremove" )
+
+		return 1
 	fi
 
-	pacman --version
+	pacman --version > /dev/null 2>&1
 
 	if [ $? = 0 ]; then
 		UPDCMDS[0]="pacman update"
 
-		return 1
+		return 0
 	fi
 
-	opkg --version
+	opkg --version > /dev/null 2>&1
 
 	if [ $? = 0 ]; then
 		UPDCMDS[0]="opkg update"
 
-		return 1
+		return 0
 	fi
 
-	dpkg --version
+	dpkg --version > /dev/null 2>&1
 
 	if [ $? = 0 ]; then
 		UPDCMDS[0]="dpkg update"
@@ -251,7 +253,7 @@ function GetPackageManager()
 		return 0
 	fi
 
-	rpm --version
+	rpm --version > /dev/null 2>&1
 
 	if [ $? = 0 ]; then
 		UPDCMDS[0]="rpm update"
