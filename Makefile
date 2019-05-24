@@ -18,13 +18,13 @@ automation: updateos
 ifeq "$(LOGNAME)" "root"
 	@cp updateos $(unattfiles) $(installfolder)
 	@chmod ugo=rx $(installfolder)/updateos
-	@cp hostinfo ${installfolder)
-	@chmod ugo=rx ${installfolder)/hostinfo
+	@cp hostinfo $(installfolder)
+	@chmod ugo=rx $(installfolder)/hostinfo
 else
 	@sudo cp updateos $(unattfiles) $(installfolder)
 	@sudo chmod ugo=rx,o-w $(installfolder)/updateos
-	@sudo cp hostinfo ${installfolder)
-	@sudo chmod ugo=rx ${installfolder)/hostinfo
+	@sudo cp hostinfo $(installfolder)
+	@sudo chmod ugo=rx $(installfolder)/hostinfo
 endif
 
 clean:
