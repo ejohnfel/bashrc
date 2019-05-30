@@ -3,6 +3,29 @@
 # csv, html, xml, json
 OUTPUT_FORMAT="csv"
 
+# Output name
+FNAME_OUT="hostinfo_${HOSTNAME}.txt"
+
+# Comment
+USER_COMMENT=""
+
+# Display on run
+DISPLAYIT=1
+
+# Usage Menu
+function Usage()
+{
+	printf "===================\n"
+	printf "= HostInfo - Usage\n"
+	printf "===================\n"
+	printf "-h\tThis menu\n"
+	printf "-c\tSet comment\n"
+	printf "-n\tNo comment (use hostname instead)\n"
+	printf "-f\tOutput format (csv, xml, html, json)\n"
+	printf "-o\tOutput filename\n"
+	printf "-s\tBe silent during run\n"
+}
+
 # Output Header for selected output Format
 # Parameters : [file]
 function Header()
@@ -32,22 +55,22 @@ function Data()
 
 	case ${OUTPUT_FORMAT} in
 	"csv")
-		printf "%s," "${2}" >> "${OUTPUT}"
+		printf "%s," "${1}" >> "${OUTPUT}"
 		shift 1
 		printf "%s\n" "${*}" >> "${OUTPUT}"
 		;;
 	"html")
-		printf "<tr><td>%s</td><td>" "${2}" >> "${OUTPUT}"
+		printf "<tr><td>%s</td><td>" "${1}" >> "${OUTPUT}"
 		shift 1
 		printf "%s</td></tr>\n" "${*}" >> "${OUTPUT}"
 		;;
 	"xml")
-		printf "<field name=\"%s\">" "${2}" >> "${OUTPUT}"
+		printf "<field name=\"%s\">" "${1}" >> "${OUTPUT}"
 		shift 1
 		printf "%s</field>\n" "${*}" >> "${OUTPUT}"
 		;;
 	"json")
-		printf "{ %s ," "${2}" >> "${OUTPUT}"
+		printf "{ %s ," "${1}" >> "${OUTPUT}"
 		shift 1
 		printf " %s }\n" "${*}" >> "${OUTPUT}"
 	esac
@@ -82,11 +105,24 @@ function Snip()
         fi
 }
 
+# Snip Data From Multiple Lines
+# Paramters: tmpfile expr [includelines] [includeexpr]
+function SnipLines()
+{
+        if [ "${3}" = "" ]; then
+                mapfile -t items <<< $(grep -E "${2}" "${1}" | cut -d":" -f2- | cut -d" " -f2-)
+        else
+                mapfile -t items <<< $(grep -A ${3} -E "${2}" "${1}" | grep -E "${4}" | cut -d":" -f2- | cut -d" " -f2-)
+        fi
+
+	echo "${items[@]}"
+}
+
 # HostInfo : Get Info about host
 function HostInfo()
 {
         local tmp=/tmp/tmp.${RANDOM}
-        local output="hostinfo.txt"
+        local output="${FNAME_OUT}"
 
 	Header "${output}"
 
@@ -98,9 +134,9 @@ function HostInfo()
                 sudo apt-get -y install lshw > /dev/null 2>1&
         fi
 
-        read -p "Comment: " USER_COMMENT
+	[ "${USER_COMMENT}" = "" ] && read -p "Comment: " USER_COMMENT
 
-        sudo lshw > ${tmp}
+        sudo lshw > ${tmp} 2> /dev/null
 
         SERIAL_NUMBER=$(Snip ${tmp} "^\s+serial:")
         DESCRIPTION=$(Snip ${tmp} "^\s+description:")
@@ -110,11 +146,11 @@ function HostInfo()
         WIDTH=$(Snip ${tmp} "^\s+width:")
         CPU=$(Snip ${tmp} "^\s+\*-cpu" 10 "^\s+product:")
         MEM=$(Snip ${tmp} "^\s+\*-memory" 4 "^\s+size:")
-        MAC_ADDRESS=$(Snip ${tmp} "\s+\*-network" 5 "^\s+serial:")
+        MAC_ADDRESS=$(SnipLines ${tmp} "\s{5,}\*-network" 15 "^\s+serial:")
 
 	Data "${output}" "host" "${HOSTNAME}"
 	Data "${output}" "comment" "${USER_COMMENT}"
-	Data "${output}" "description"
+	Data "${output}" "description" "${DESCRIPTION}"
 	Data "${output}" "product" "${PRODUCT}"
 	Data "${output}" "vendor" "${VENDOR}"
 	Data "${output}" "serial-number" "${SERIAL_NUMBER}"
@@ -126,9 +162,26 @@ function HostInfo()
 
 	Trailer "${output}"
 
-	[ -e "${output}" ] && cat "${output}"
+	[ -e "${output}" -a ${DISPLAYIT} -gt 0 ] && cat "${output}"
 
         [ -e ${tmp} ] && rm ${tmp}
 }
+
+#
+# Main Loop
+#
+
+USER_COMMENT="${HOSTNAME}"
+
+while getopts "c:nhf:o:s" opt; do
+	case "${opt}" in
+	"h")	Usage; exit 0 ;;
+	"c")	USER_COMMENT="${OPTARG}" ;;
+	"n")	USER_COMMENT="${HOSTNAME}" ;;
+	"f")	OUTPUT_FORMAT="${OPTARG}" ;;
+	"o")	FNAME_OUT="${OPTARG}" ;;
+	"s")	DISPLAYIT=0 ;;
+	esac
+done
 
 HostInfo
