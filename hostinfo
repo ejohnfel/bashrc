@@ -118,6 +118,17 @@ function SnipLines()
 	echo "${items[@]}"
 }
 
+# Get Arbitrary String From Required Line
+# Parameters : [input file] [output file] [field-name] [line expr] [string match] [delimiter] [field]
+function GetString()
+{
+	FIELD=$(grep -E "${4}" "${1}" | grep -E -o "${5}" | cut -d"${6}" -f ${7})
+
+	if [ ! "${FIELD}" = "" ]; then
+		Data "${2}" "${3}" "${FIELD}"
+	fi
+}
+
 # Get Network Interfaces from LSHW Output
 # Parameters: [input filename] [output filename] [pattern] [lines]
 function GetNetworkInterfaces()
@@ -188,6 +199,7 @@ function HostInfo()
 	Data "${output}" "memory" "${MEM}"
 	#Data "${output}" "mac-addresses" "${MAC_ADDRESS}"
 
+	GetString "${tmp}" "${output}" "UUID" "^\s+configuration\:.+uuid=" "uuid=.{36}" "=" 2
 	GetNetworkInterfaces "${tmp}" "${output}" "\s{5,}\*-network" 15
 
 	Trailer "${output}"
@@ -201,17 +213,25 @@ function HostInfo()
 # Main Loop
 #
 
-USER_COMMENT="${HOSTNAME}"
+if [ ! "${LOGNAME}" = "root" ]; then
+	read -t 15 -N 1 -p "Best run as root, try to elevate (Y/n)? "
 
-while getopts "c:nhf:o:s" opt; do
-	case "${opt}" in
-	"h")	Usage; exit 0 ;;
-	"c")	USER_COMMENT="${OPTARG}" ;;
-	"n")	USER_COMMENT="${HOSTNAME}" ;;
-	"f")	OUTPUT_FORMAT="${OPTARG}" ;;
-	"o")	FNAME_OUT="${OPTARG}" ;;
-	"s")	DISPLAYIT=0 ;;
-	esac
-done
+	if [[ ${REPLY} =~ ^(y|Y)$ ]]; then
+		sudo ${0} ${*}
+	fi
+else
+	USER_COMMENT="${HOSTNAME}"
 
-HostInfo
+	while getopts "c:nhf:o:s" opt; do
+		case "${opt}" in
+		"h")	Usage; exit 0 ;;
+		"c")	USER_COMMENT="${OPTARG}" ;;
+		"n")	USER_COMMENT="${HOSTNAME}" ;;
+		"f")	OUTPUT_FORMAT="${OPTARG}" ;;
+		"o")	FNAME_OUT="${OPTARG}" ;;
+		"s")	DISPLAYIT=0 ;;
+		esac
+	done
+
+	HostInfo
+fi
