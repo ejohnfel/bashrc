@@ -122,7 +122,10 @@ function SnipLines()
 # Parameters: [input filename] [output filename] [pattern] [lines]
 function GetNetworkInterfaces()
 {
-	local serial, product, vendor, description
+	local serial
+	local product
+	local vendor
+	local description
 
 	mapfile -t netitems <<< $(grep -A ${4} -E "${3}" "${1}")
 
