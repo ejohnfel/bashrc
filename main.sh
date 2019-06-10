@@ -343,6 +343,18 @@ function screens()
 	fi
 }
 
+# List Only Valid Mounts
+function mounts()
+{
+	mount | grep -E -v "^(cgroups|tmpfs|pstore|systemd|mqueue|sunrpc|tracefs|configfs|hugetblfs|nfsd|fusectl|/var/lib/snapd"
+}
+
+# List Mounted Snaps
+function snaps()
+{
+	mount | grep -E "^/var/lib/snapd"
+}
+
 # List My Functions
 function myfuncs()
 {
