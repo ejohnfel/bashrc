@@ -6,7 +6,7 @@
 declare -a UPDCMDS
 MYGITREP=ejohnfel
 BASHRCGIT="https://github.com/ejohnfel/bashrc"
-BASHRCVERSION="201906100000"
+BASHRCVERSION="201906100001"
 ISNAT=0
 INTERNIP=`hostname -I`
 EXTERNIP="UNKNOWN"
@@ -346,7 +346,7 @@ function screens()
 # List Only Valid Mounts
 function mounts()
 {
-	mount | grep -E -v "^(cgroups|tmpfs|pstore|systemd|mqueue|sunrpc|tracefs|configfs|hugetblfs|nfsd|fusectl|/var/lib/snapd"
+	mount | grep -E -v "^(cgroups|tmpfs|pstore|systemd|mqueue|sunrpc|tracefs|configfs|hugetblfs|nfsd|fusectl|/var/lib/snapd)"
 }
 
 # List Mounted Snaps
