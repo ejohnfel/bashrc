@@ -361,6 +361,50 @@ function myfuncs()
 	compgen -A function | egrep -v "^_|^quote$|^quote_|^command_not|^dequote"
 }
 
+# List ssh hosts on ssh-config
+function sshhosts()
+{
+	declare -a hosts_x
+	declare -a dns_x
+
+	HST=""
+
+	hosts_x=()
+	dns_x=()
+
+	FILE="${HOME}/.ssh/config"
+
+	max_x=20
+
+	if [ -e ${FILE} ]; then
+		while read tag value; do
+			if [ "${tag}" = "host" ]; then
+				HST="${value}"
+				hosts_x[${#hosts_x[@]}]="${value}"
+
+				if [ ${#value} -ge ${max_x} ]; then
+					max_x=${#value}
+				fi
+			fi
+
+			if [ ! "${HST}" = "" -a "${tag}" = "HostName" ]; then
+				dns_x[${#dns_x[@]}]="${value}"
+
+				HST=""
+			fi
+		done < ${FILE}
+
+		for ((index=0; index < ${#hosts[@]}; ++index)); do
+			printf "%-${max_x}s %s\n" "${hosts_x[${index}]}" "${dns_x[${index}]}"
+		done
+	else
+		echo "No ssh config file to read"
+	fi
+
+	unset hosts_x
+	unset dns_x
+}
+
 # Determine This Machines Location
 DetermineLocation
 
