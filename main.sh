@@ -6,7 +6,7 @@
 declare -a UPDCMDS
 MYGITREP=ejohnfel
 BASHRCGIT="https://github.com/ejohnfel/bashrc"
-BASHRCVERSION="2019102720192256"
+BASHRCVERSION="2019102720192301"
 ISNAT=0
 INTERNIP=`hostname -I`
 EXTERNIP="UNKNOWN"
@@ -394,7 +394,7 @@ function sshhosts()
 			fi
 		done < ${FILE}
 
-		for ((index=0; index < ${#hosts[@]}; ++index)); do
+		for ((index=0; index < ${#hosts_x[@]}; ++index)); do
 			printf "%-${max_x}s %s\n" "${hosts_x[${index}]}" "${dns_x[${index}]}"
 		done
 	else
