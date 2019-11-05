@@ -346,7 +346,7 @@ function screens()
 # List Only Valid Mounts
 function mounts()
 {
-	mount | grep -E -v "^(cgroup|tmpfs|pstore|systemd|mqueue|sunrpc|tracefs|configfs|hugetlbfs|nfsd|fusectl|/var/lib/snapd|sysfs|proc|udev|devpts|securityfs|debugfs)"
+	mount | grep -E -v "^(proc|cgroup|tmpfs|pstore|systemd|mqueue|sunrpc|tracefs|configfs|hugetlbfs|nfsd|fusectl|/var/lib/snapd|sysfs|proc|udev|devpts|securityfs|debugfs)"
 }
 
 # List Mounted Snaps
