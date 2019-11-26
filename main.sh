@@ -6,7 +6,7 @@
 declare -a UPDCMDS
 MYGITREP=ejohnfel
 BASHRCGIT="https://github.com/ejohnfel/bashrc"
-BASHRCVERSION="2019110520190953"
+BASHRCVERSION="2019112520192324"
 ISNAT=0
 INTERNIP=`hostname -I`
 EXTERNIP="UNKNOWN"
@@ -15,6 +15,9 @@ PREFIX=""
 LOCATION="internal"
 MYDOMAIN="digitalwicky.biz"
 SAYINGS="/srv/storage/data/waiting.txt"
+
+CDPATH=/srv:/srv/storage:/srv/storage/projects:/srv/storage/projects/scripts:/home/ejohnfelt
+export CDPATH
 
 # Set prefix
 function SetPrefix()
