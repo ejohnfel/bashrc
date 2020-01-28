@@ -414,14 +414,14 @@ DFREECONF=~/.dfree
 # Show Free Space On Storage Devices
 function dfree()
 {
-	if [ -f "${DFREECONF}" ]; then
-		cat "${DFREECONF}" | mapfile -t volumes
+	if [ -f ${DFREECONF} ]; then
+		cat ${DFREECONF} | mapfile -t volumes
 
 		printf "%-4s\t%-4s\t%-4s\t%-4s\t%4s\t%s\n" "Size" "Used" "Avail" "%Use" "Mnt" "Array"
 
 		for ((index=0; index < ${#volumes[@]}; ++index)); do
 			mp="no"
-			volume="${volumes[${index]}"
+			volume="${volumes[${index}]}"
 			[ mountpoint -q "${volume}" ] && mp="yes"
 
 			read device size used available inuse arrname <<< $(df -h ${array} | tail -n1)
