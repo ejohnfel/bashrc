@@ -6,7 +6,7 @@
 declare -a UPDCMDS
 MYGITREP=ejohnfel
 BASHRCGIT="https://github.com/ejohnfel/bashrc"
-BASHRCVERSION="20200128114600"
+BASHRCVERSION="20200128114800"
 ISNAT=0
 INTERNIP=`hostname -I`
 EXTERNIP="UNKNOWN"
@@ -424,7 +424,7 @@ function dfree()
 		for ((index=0; index < ${#volumes[@]}; ++index)); do
 			mp="no"
 			volume="${volumes[${index}]}"
-			[ mountpoint -q "${volume}" ] && mp="yes"
+			mountpoint -q "${volume}" && mp="yes"
 
 			read device size used available inuse arrname <<< $(df -h ${array} | tail -n1)
 
