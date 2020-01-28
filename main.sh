@@ -6,7 +6,7 @@
 declare -a UPDCMDS
 MYGITREP=ejohnfel
 BASHRCGIT="https://github.com/ejohnfel/bashrc"
-BASHRCVERSION="2019112520192324"
+BASHRCVERSION="20200128111900"
 ISNAT=0
 INTERNIP=`hostname -I`
 EXTERNIP="UNKNOWN"
@@ -406,6 +406,31 @@ function sshhosts()
 
 	unset hosts_x
 	unset dns_x
+}
+
+# Env Variable for DFREE
+DFREECONF=~/.dfree
+
+# Show Free Space On Storage Devices
+function dfree()
+{
+	if [ -f "${DFREECONF}" ]; then
+		cat "${DFREECONF}" | mapfile -t volumes
+
+		printf "%-4s\t%-4s\t%-4s\t%-4s\t%4s\t%s\n" "Size" "Used" "Avail" "%Use" "Mnt" "Array"
+
+		for ((index=0; index < ${#volumes[@]}; ++index)); do
+			mp="no"
+			volume="${volumes[${index]}"
+			[ mountpoint -q "${volume}" ] && mp="yes"
+
+			read device size used available inuse arrname <<< $(df -h ${array} | tail -n1)
+
+			printf "%-4s\t%-4s\t%-4s\t%-4s\t%4s\t%s\n" "${size}" "${used}" "${available}" "${inuse}" "${mp}" "${array}"
+		done
+	else
+		printf "No .dfree conf found\n"
+	fi
 }
 
 # Determine This Machines Location
