@@ -6,7 +6,7 @@
 declare -a UPDCMDS
 MYGITREP=ejohnfel
 BASHRCGIT="https://github.com/ejohnfel/bashrc"
-BASHRCVERSION="20200128115100"
+BASHRCVERSION="20200128115400"
 ISNAT=0
 INTERNIP=`hostname -I`
 EXTERNIP="UNKNOWN"
@@ -422,13 +422,13 @@ function dfree()
 		printf "%-4s\t%-4s\t%-4s\t%-4s\t%4s\t%s\n" "Size" "Used" "Avail" "%Use" "Mnt" "Array"
 
 		for ((index=0; index < ${#volumes[@]}; ++index)); do
+			read volume comment <<< $(echo ${volumes[${index}]})
 			mp="no"
-			volume="${volumes[${index}]}"
 			mountpoint -q "${volume}" && mp="yes"
 
 			read device size used available inuse arrname <<< $(df -h ${volume} | tail -n1)
 
-			printf "%-4s\t%-4s\t%-4s\t%-4s\t%4s\t%s\n" "${size}" "${used}" "${available}" "${inuse}" "${mp}" "${volume}"
+			printf "%-4s\t%-4s\t%-4s\t%-4s\t%4s\t%15s\t%s\n" "${size}" "${used}" "${available}" "${inuse}" "${mp}" "${volume}" "${description}"
 		done
 	else
 		printf "No .dfree conf found\n"
