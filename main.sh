@@ -428,7 +428,7 @@ function dfree()
 
 			read device size used available inuse arrname <<< $(df -h ${volume} | tail -n1)
 
-			printf "%-4s\t%-4s\t%-4s\t%-4s\t%4s\t%15s\t%s\n" "${size}" "${used}" "${available}" "${inuse}" "${mp}" "${volume}" "${comment}"
+			printf "%-4s\t%-4s\t%-4s\t%-4s\t%-4s\t%-15s\t%s\n" "${size}" "${used}" "${available}" "${inuse}" "${mp}" "${volume}" "${comment}"
 		done
 	else
 		printf "No .dfree conf found\n"
