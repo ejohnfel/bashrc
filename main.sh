@@ -6,7 +6,7 @@
 declare -a UPDCMDS
 MYGITREP=ejohnfel
 BASHRCGIT="https://github.com/ejohnfel/bashrc"
-BASHRCVERSION="20200128113900"
+BASHRCVERSION="20200128114300"
 ISNAT=0
 INTERNIP=`hostname -I`
 EXTERNIP="UNKNOWN"
@@ -120,7 +120,7 @@ function updatemybashrc()
 
 	cd ..
 
-	rm -Rf bashrc
+	rm -Rf /tmp/bashrc
 
 	source ~/.bashrc
 
