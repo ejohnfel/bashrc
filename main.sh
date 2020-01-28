@@ -6,7 +6,7 @@
 declare -a UPDCMDS
 MYGITREP=ejohnfel
 BASHRCGIT="https://github.com/ejohnfel/bashrc"
-BASHRCVERSION="20200128113200"
+BASHRCVERSION="20200128113900"
 ISNAT=0
 INTERNIP=`hostname -I`
 EXTERNIP="UNKNOWN"
@@ -108,6 +108,8 @@ function updatemybashrc()
 	mybashrc "Current Version"
 
 	git clone ${BASHRCGIT}
+
+	[ ! -d /tmp/bashrc ] && return
 
 	cd bashrc
 
@@ -415,7 +417,7 @@ DFREECONF=~/.dfree
 function dfree()
 {
 	if [ -f ${DFREECONF} ]; then
-		cat ${DFREECONF} | mapfile -t volumes
+		mapfile -t volumes < ${DFREECONF}
 
 		printf "%-4s\t%-4s\t%-4s\t%-4s\t%4s\t%s\n" "Size" "Used" "Avail" "%Use" "Mnt" "Array"
 
