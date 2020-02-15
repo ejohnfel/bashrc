@@ -16,7 +16,7 @@ LOCATION="internal"
 MYDOMAIN="digitalwicky.biz"
 SAYINGS="/srv/storage/data/waiting.txt"
 
-CDPATH=/srv:/srv/storage:/srv/storage/projects:/srv/storage/projects/scripts:/home/ejohnfelt
+CDPATH=.:/srv:/srv/storage:/srv/storage/projects:/srv/storage/projects/scripts:/home/ejohnfelt
 export CDPATH
 
 # Set prefix
