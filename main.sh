@@ -483,6 +483,9 @@ DetermineLocation
 # Setup SSH Agent
 SSHSetup
 
+# Fortune Cow Say
+FortuneCow
+
 # Sayings
 RandomSaying
 
