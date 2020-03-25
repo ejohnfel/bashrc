@@ -15,9 +15,37 @@ PREFIX=""
 LOCATION="internal"
 MYDOMAIN="digitalwicky.biz"
 SAYINGS="/srv/storage/data/waiting.txt"
+BSHDEBUG=0
 
 CDPATH=.:/srv:/srv/storage:/srv/storage/projects:/srv/storage/projects/scripts:/home/ejohnfelt
 export CDPATH
+
+# DbgWrite : Internal Debug Messaging
+function DbgWrite()
+{
+	[ ${BSHDEBUG} -gt 0 ] && MsgWrite "$(date) - ${*}"
+}
+
+# MsgWrite : Internal Messaging Function
+function MsgWrite()
+{
+	echo -e "${*}"
+}
+
+# SetDebugMode : Get or Set BshDebugMode
+function SetDebugMode()
+{
+	if [ "${1}" = "" ]; then
+		MsgWrite "DebugMode : ${BSHDEBUG} [on or off to change]"
+	elif [ "${1}" = "off" -o "${1}" = "0" ]; then
+		BSHDEBUG=0
+	else
+		BSHDEBUG=1
+	fi
+
+	export BSHDEBUG
+	#setenv BSHDEBUG
+}
 
 # Set prefix
 function SetPrefix()
@@ -138,8 +166,12 @@ function RandomSaying()
 # FortuneCow : Have Cow display fortunes
 function FortuneCow()
 {
+	DbgWrite "Starting FortuneCow, checking for fortune"
+
 	if fortune > /dev/null 2>&1 ; then
+		DbgWrite "Fortune exists, checking cowsay"
 		if cowsay > /dev/null 2>&1 ; then
+			DbgWrite "Cowsay exists, going for it"
 			fortune | cowsay
 		fi
 	fi
