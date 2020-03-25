@@ -1,12 +1,12 @@
 ########################################################
 # [AUTOMATED-INSERT-MARKER]
 # Author Eric Johnfelt
-# Date 7/30/2019
+# Date 2/15/2020
 
 declare -a UPDCMDS
 MYGITREP=ejohnfel
 BASHRCGIT="https://github.com/ejohnfel/bashrc"
-BASHRCVERSION="20200128115700"
+BASHRCVERSION="20200215153900"
 ISNAT=0
 INTERNIP=`hostname -I`
 EXTERNIP="UNKNOWN"
@@ -133,6 +133,16 @@ function updatemybashrc()
 function RandomSaying()
 {
 	[ -e "${SAYINGS}" ] && shuf -n1 "${SAYINGS}"
+}
+
+# FortuneCow : Have Cow display fortunes
+function FortuneCow()
+{
+	if fortune > /dev/null 2>&1 ; then
+		if cowsay > /dev/null 2>&1 ; then
+			fortune | cowsay
+		fi
+	fi
 }
 
 # Determine Location of This Machine (and update MYDOMAIN,LOCATION variables)
