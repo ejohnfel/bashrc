@@ -170,7 +170,7 @@ function FortuneCow()
 
 	if fortune > /dev/null 2>&1 ; then
 		DbgWrite "Fortune exists, checking cowsay"
-		if cowsay > /dev/null 2>&1 ; then
+		if cowsay "Test, test, test" > /dev/null 2>&1 ; then
 			DbgWrite "Cowsay exists, going for it"
 			fortune | cowsay
 		fi
