@@ -1,7 +1,7 @@
 ########################################################
 # [AUTOMATED-INSERT-MARKER]
 # Author Eric Johnfelt
-# Date 7/30/2019
+# Date 7/30/2019, rev 4/30/2020
 
 # Update OS
 function UpdateOS()
@@ -31,6 +31,19 @@ function UpdateOS()
 
 		shift 1
 	done
+
+	BUSYCOUNT=0
+	while [ -f /tmp/*.busy.[0123456789]* -a ${BUSYCOUNT} -lt 43200 ]; do
+		sleep 1s
+		BUSYCOUNT=$(( ${BUSYCOUNT} + 1 ))
+	done
+
+	if [ ${BUSYCOUNT} -ge 43200 ]; then
+		BUSYCOUNT=0
+		msg="Blocked by busy semaphore for the last 12 hours, stopping..."
+		logger -t UpdateOS -p user.notice ${msg}
+		return 0
+	fi
 
 	if [ ! "${EXECDELAY}" = "" ]; then
 		sleep ${EXECDELAY}

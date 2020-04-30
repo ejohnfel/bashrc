@@ -477,6 +477,35 @@ function dfree()
 	fi
 }
 
+# MkBusySemaphore
+# Parameters : [semaphore-name]
+# Summary : If a name is provided, it will used, otherwise, function will
+# attempt to use the PID of the executing shell. All semaphores will be
+# unique, so the script must keep track of them and delete them when the
+# time comes. This function is intended to be used like so.
+# Example:
+# mysemaphore=$(MkBusySemaphore)
+# ...
+# [ -f ${mysemaphore} ] && rm ${mysemaphore}
+#
+# In this example, the function generates the semaphore and it's full name
+# and stores the full name in a variable for later reference.
+# when the script is finished or no longer needs to block, use the variable 
+# to recover the file name and delete the semaphore from the file system
+# so it does not continue to block other apps looking for the busy semaphores
+function MkBusySemaphore()
+{
+	if [ ! "${1}" = "" ]; then
+		sp="${1}.busy.${RANDOM}"
+	else
+		sp="${BASHPID}.busy.${RANDOM}"
+	fi
+
+	touch "${sp}"
+
+	echo "${sp}"
+}
+
 # Determine This Machines Location
 DetermineLocation
 
