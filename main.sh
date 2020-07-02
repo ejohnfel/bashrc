@@ -177,6 +177,13 @@ function FortuneCow()
 	fi
 }
 
+# Check IP against external source
+function IPCheck()
+{
+	IPCheckResult=$(curl -s https://checkip.amazon.aws.com)
+	export IPCheckResult
+}
+
 # Determine Location of This Machine (and update MYDOMAIN,LOCATION variables)
 function DetermineLocation()
 {
