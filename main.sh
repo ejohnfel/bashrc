@@ -6,7 +6,7 @@
 declare -a UPDCMDS
 MYGITREP=ejohnfel
 BASHRCGIT="https://github.com/ejohnfel/bashrc"
-BASHRCVERSION="20200702163900"
+BASHRCVERSION="20200719115652"
 ISNAT=0
 INTERNIP=`hostname -I`
 EXTERNIP="UNKNOWN"
@@ -497,7 +497,7 @@ function dfree()
 #
 # In this example, the function generates the semaphore and it's full name
 # and stores the full name in a variable for later reference.
-# when the script is finished or no longer needs to block, use the variable 
+# when the script is finished or no longer needs to block, use the variable
 # to recover the file name and delete the semaphore from the file system
 # so it does not continue to block other apps looking for the busy semaphores
 function MkBusySemaphore()
@@ -527,3 +527,4 @@ RandomSaying
 
 # Only useful when 'hollywood' and/or mplayer is installed
 alias mi="mplayer -vo caca /srv/storage/media/music/Soundtracks/mi.mp4"
+alias os="cat /etc/os-release"
