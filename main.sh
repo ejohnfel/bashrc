@@ -6,7 +6,7 @@
 declare -a UPDCMDS
 MYGITREP=ejohnfel
 BASHRCGIT="https://github.com/ejohnfel/bashrc"
-BASHRCVERSION="20200719132056"
+BASHRCVERSION="20200719132533"
 ISNAT=0
 INTERNIP=`hostname -I`
 EXTERNIP="UNKNOWN"
@@ -145,7 +145,7 @@ function updatemybashrc()
 
 	cd /tmp/bashrc >/dev/null
 
-	REPVER=$(grep -E "^BASHRCVERSION\=" main.sh | cut -d"=" -f2)
+	REPVER=$(grep -E "^BASHRCVERSION\=" main.sh | cut -d"=" -f2 | tr -d "\"")
 
 	if [ ! "${REPVER}" = "${BASHRCVERSION}" ]; then
 		MsgWrite "Newer version (${REPVER}) in repository, updating now..."
