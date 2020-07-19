@@ -131,26 +131,32 @@ function mybashrc()
 # Manual Update
 function updatemybashrc()
 {
+	[ ! -d /tmp ] && MsgWrite "Uh, /tmp is missing.... wow, can't continue!!!" && return
+
 	pushd /tmp > /dev/null
 
 	mybashrc "Current Version"
 
-	git clone ${BASHRCGIT}
+	TMP="/tmp/tmp.${RANDOM}"
 
-	[ ! -d /tmp/bashrc ] && return
+	git clone ${BASHRCGIT} >  "${TMP}"
 
-	cd /tmp/bashrc
+	[ ! -d /tmp/bashrc ] && MsgWrite "Could not pull down git archive, potential error msg follows\n============\n$(cat ${TMP})\n" && return
 
-	make clean
-	make all
-	make update
-	sudo make automation
+	[ -f "${TMP}" ] && rm "${TMP}"
 
-	cd ..
+	cd /tmp/bashrc >/dev/null
+
+	make clean > /dev/null
+	make all > /dev/ null
+	make update > /dev/null
+	sudo make automation > /dev/null
+
+	cd .. > /dev/null
 
 	rm -Rf /tmp/bashrc
 
-	source ~/.bashrc
+	source ~/.bashrc > /dev/null
 
 	mybashrc "New Version"
 
