@@ -6,7 +6,7 @@
 declare -a UPDCMDS
 MYGITREP=ejohnfel
 BASHRCGIT="https://github.com/ejohnfel/bashrc"
-BASHRCVERSION="20200719131428"
+BASHRCVERSION="20200719132056"
 ISNAT=0
 INTERNIP=`hostname -I`
 EXTERNIP="UNKNOWN"
@@ -135,8 +135,6 @@ function updatemybashrc()
 
 	pushd /tmp > /dev/null
 
-	mybashrc "Current Version"
-
 	TMP="/tmp/tmp.${RANDOM}"
 
 	git clone ${BASHRCGIT} &>  "${TMP}"
@@ -150,22 +148,20 @@ function updatemybashrc()
 	REPVER=$(grep -E "^BASHRCVERSION\=" main.sh | cut -d"=" -f2)
 
 	if [ ! "${REPVER}" = "${BASHRCVERSION}" ]; then
-		MsgWrite "Repository Version - ${REPVER} != Current Version - ${BASHRCVERSION} ... updating"
+		MsgWrite "Newer version (${REPVER}) in repository, updating now..."
 		make clean > /dev/null
 		make all > /dev/null
 		make update > /dev/null
 		sudo make automation > /dev/null
+
+		source ~/.bashrc > /dev/null
 	else
-		MsgWrite "No pending updates..."
+		mybashrc "No pending updates, current version is"
 	fi
 
 	cd .. > /dev/null
 
 	rm -Rf /tmp/bashrc
-
-	source ~/.bashrc > /dev/null
-
-	mybashrc "New Version"
 
 	popd > /dev/null
 }
