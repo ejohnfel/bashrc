@@ -6,7 +6,7 @@
 declare -a UPDCMDS
 MYGITREP=ejohnfel
 BASHRCGIT="https://github.com/ejohnfel/bashrc"
-BASHRCVERSION="20200719115652"
+BASHRCVERSION="20200719131428"
 ISNAT=0
 INTERNIP=`hostname -I`
 EXTERNIP="UNKNOWN"
@@ -139,7 +139,7 @@ function updatemybashrc()
 
 	TMP="/tmp/tmp.${RANDOM}"
 
-	git clone ${BASHRCGIT} >  "${TMP}"
+	git clone ${BASHRCGIT} &>  "${TMP}"
 
 	[ ! -d /tmp/bashrc ] && MsgWrite "Could not pull down git archive, potential error msg follows\n============\n$(cat ${TMP})\n" && return
 
@@ -152,7 +152,7 @@ function updatemybashrc()
 	if [ ! "${REPVER}" = "${BASHRCVERSION}" ]; then
 		MsgWrite "Repository Version - ${REPVER} != Current Version - ${BASHRCVERSION} ... updating"
 		make clean > /dev/null
-		make all > /dev/ null
+		make all > /dev/null
 		make update > /dev/null
 		sudo make automation > /dev/null
 	else
