@@ -147,10 +147,17 @@ function updatemybashrc()
 
 	cd /tmp/bashrc >/dev/null
 
-	make clean > /dev/null
-	make all > /dev/ null
-	make update > /dev/null
-	sudo make automation > /dev/null
+	REPVER=$(grep -E "^BASHRCVERSION\=" main.sh | cut -d"=" -f2)
+
+	if [ ! "${REPVER}" = "${BASHRCVERSION}" ]; then
+		MsgWrite "Repository Version - ${REPVER} != Current Version - ${BASHRCVERSION} ... updating"
+		make clean > /dev/null
+		make all > /dev/ null
+		make update > /dev/null
+		sudo make automation > /dev/null
+	else
+		MsgWrite "No pending updates..."
+	fi
 
 	cd .. > /dev/null
 
