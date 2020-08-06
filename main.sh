@@ -6,7 +6,7 @@
 declare -a UPDCMDS
 MYGITREP=ejohnfel
 BASHRCGIT="https://github.com/ejohnfel/bashrc"
-BASHRCVERSION="20200804130200"
+BASHRCVERSION="20200806095400"
 ISNAT=0
 INTERNIP=`hostname -I`
 EXTERNIP="UNKNOWN"
@@ -154,7 +154,7 @@ function updatemybashrc()
 		make update > /dev/null
 		sudo make automation > /dev/null
 
-		source ~/.bashrc > /dev/null
+		source ~/.bash_profile > /dev/null
 	else
 		mybashrc "No pending updates, current version is"
 	fi
