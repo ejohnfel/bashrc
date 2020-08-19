@@ -67,7 +67,7 @@ function UpdateOS()
 
 		case "${CMD}" in
 		"wait")
-			read -p "Reboot ${HOSTNAME} (y/n)? "
+			read -n 1 -p "Reboot ${HOSTNAME} (y/n)? "
 			[ "${REPLY}" = "y" -o "${REPLY}" = "Y" ] && ${PREFIX} reboot ;;
 		"reboot")
 			read -n 1 -t ${REPLYDELAY} -p "Rebooting ${HOSTNAME} in ${REPLYDELAY}s, abort (y/n)? "
@@ -76,9 +76,11 @@ function UpdateOS()
 			read -n 1 -t ${REPLYDELAY} -p "Shutting down ${HOSTNAME} in ${REPLYDELAY}s, abort (y/n)? "
 			[ ! "${REPLY}" = "y" ] && ${PREFIX} shutdown -h now ;;
 		*)
-			read -t 60 -p "Reboot ${HOSTNAME} (y/N)? "
+			read -n 1 -t ${REPLYDELAY} -p "Reboot ${HOSTNAME} (y/N)? "
 			[ "${REPLY}" = "y" -o "${REPLY}" = "Y" ] && ${PREFIX} reboot
 		esac
+
+		printf "\n"
 	else
 		chkupd
 	fi
