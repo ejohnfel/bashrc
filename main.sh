@@ -6,7 +6,7 @@
 declare -a UPDCMDS
 MYGITREP=ejohnfel
 BASHRCGIT="https://github.com/ejohnfel/bashrc"
-BASHRCVERSION="20200819222806"
+BASHRCVERSION="20200819222807"
 ISNAT=0
 INTERNIP=`hostname -I`
 EXTERNIP="UNKNOWN"
@@ -449,9 +449,13 @@ function matchmac()
 
 		if ! grep "${processed}" "${KNOWN}"; then
 			printf "Found nothing...sorry\n"
+			return 1
 		fi
+
+		return 0
 	else
 		printf "Cannot find, ${KNOWN}, database\n"
+		return 1
 	fi
 }
 
@@ -468,11 +472,21 @@ function matchoui()
 		processed="${processed/-/:}"
 		processed="${processed/ /:}"
 
+		if [ ${#processed} -gt 8 ]; then
+			old="${processed}"
+			processed="${processed:0:8}"
+			printf "Converting ${old} to ${processed} for search\n"
+		fi
+
 		if ! grep "${processed}" "${OUIS}"; then
 			printf "Found nothing...sorry\n"
+			return 1
 		fi
+
+		return 0
 	else
 		printf "Cannot find, ${OUIS}, database\n"
+		return 1
 	fi
 }
 
