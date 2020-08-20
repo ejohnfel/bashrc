@@ -6,7 +6,7 @@
 declare -a UPDCMDS
 MYGITREP=ejohnfel
 BASHRCGIT="https://github.com/ejohnfel/bashrc"
-BASHRCVERSION="20200819222805"
+BASHRCVERSION="20200819222806"
 ISNAT=0
 INTERNIP=`hostname -I`
 EXTERNIP="UNKNOWN"
@@ -467,6 +467,10 @@ function matchoui()
 		# Best effort to convert seperators to colons
 		processed="${processed/-/:}"
 		processed="${processed/ /:}"
+
+		if ! grep "${processed}" "${OUIS}"; then
+			printf "Found nothing...sorry\n"
+		fi
 	else
 		printf "Cannot find, ${OUIS}, database\n"
 	fi
