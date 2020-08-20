@@ -6,7 +6,7 @@
 declare -a UPDCMDS
 MYGITREP=ejohnfel
 BASHRCGIT="https://github.com/ejohnfel/bashrc"
-BASHRCVERSION="20200819222803"
+BASHRCVERSION="20200819222804"
 ISNAT=0
 INTERNIP=`hostname -I`
 EXTERNIP="UNKNOWN"
@@ -421,8 +421,14 @@ function snaps()
 # If host has a lease file, output it
 function leases()
 {
-	if [ -f /var/lib/dhcp/dhcpd.leases ]; then
-		cat /var/lib/dhcp/dhcpd.leases
+	local LEASEFILE=/var/lib/dhcp/dhcpd.leases
+
+	if [ -f "${LEASEFILE}" ]; then
+		if [ "${1}" = "" ]; then
+			cat "${LEASEFILE}"
+		else
+			grep -E "${1}" "${LEASEFILE}" 
+		fi
 	else
 		printf "Host has no DHCP Leases file\n"
 	fi
