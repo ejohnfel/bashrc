@@ -427,7 +427,7 @@ function leases()
 		if [ "${1}" = "" ]; then
 			cat "${LEASEFILE}"
 		else
-			grep -E "${1}" "${LEASEFILE}" 
+			grep -E "${1}" "${LEASEFILE}"
 		fi
 	else
 		printf "Host has no DHCP Leases file\n"
@@ -440,8 +440,10 @@ function matchmac()
 	local KNOWN="/srv/storage/data/knownhosts.csv"
 
 	if [ -f "${KNOWN}" ]; then
+		# Lower case alphas
 		processed="${1,,}"
 
+		# Best effort to convert seperators to colons
 		processed="${processed/-/:}"
 		processed="${processed/ /:}"
 
@@ -450,6 +452,23 @@ function matchmac()
 		fi
 	else
 		printf "Cannot find, ${KNOWN}, database\n"
+	fi
+}
+
+# Match Supplied OUI Code with known OUI's Database
+function matchoui()
+{
+	local OUIS="/srv/storage/data/ouis.csv"
+
+	if [ -f "${OUIS}" ]; then
+		# Lower case alphas
+		processed="${1,,}"
+
+		# Best effort to convert seperators to colons
+		processed="${processed/-/:}"
+		processed="${processed/ /:}"
+	else
+		printf "Cannot find, ${OUIS}, database\n"
 	fi
 }
 
