@@ -6,7 +6,7 @@
 declare -a UPDCMDS
 MYGITREP=ejohnfel
 BASHRCGIT="https://github.com/ejohnfel/bashrc"
-BASHRCVERSION="20200819222804"
+BASHRCVERSION="20200819222805"
 ISNAT=0
 INTERNIP=`hostname -I`
 EXTERNIP="UNKNOWN"
@@ -431,6 +431,25 @@ function leases()
 		fi
 	else
 		printf "Host has no DHCP Leases file\n"
+	fi
+}
+
+# Match MAC Addresses
+function matchmac()
+{
+	local KNOWN="/srv/storage/data/knownhosts.csv"
+
+	if [ -f "${KNOWN}" ]; then
+		processed="${1,,}"
+
+		processed="${processed/-/:}"
+		processed="${processed/ /:}"
+
+		if ! grep "${processed}" "${KNOWN}"; then
+			printf "Found nothing...sorry\n"
+		fi
+	else
+		printf "Cannot find, ${KNOWN}, database\n"
 	fi
 }
 
