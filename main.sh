@@ -6,7 +6,7 @@
 declare -a UPDCMDS
 MYGITREP=ejohnfel
 BASHRCGIT="https://github.com/ejohnfel/bashrc"
-BASHRCVERSION="20200819222807"
+BASHRCVERSION="20200819222808"
 ISNAT=0
 INTERNIP=`hostname -I`
 EXTERNIP="UNKNOWN"
@@ -448,7 +448,7 @@ function matchmac()
 		processed="${processed/ /:}"
 
 		if ! grep "${processed}" "${KNOWN}"; then
-			printf "Found nothing...sorry\n"
+			printf "Found nothing for ${processed}\n"
 			return 1
 		fi
 
@@ -479,7 +479,7 @@ function matchoui()
 		fi
 
 		if ! grep "${processed}" "${OUIS}"; then
-			printf "Found nothing...sorry\n"
+			printf "Found nothing for ${processed}\n"
 			return 1
 		fi
 
