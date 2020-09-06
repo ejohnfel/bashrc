@@ -38,6 +38,9 @@ clean:
 	@[ -e hostinfo.txt ] && rm hostinfo.txt || true
 	@[ -e output.txt ] && rm output.txt || true
 
+chser:
+	@./chgser
+
 git:
 	@git commit
 	@git push
@@ -52,4 +55,5 @@ actions:
 	@printf "update\tDo update deploy\n"
 	@printf "automation\tDo Automation deploy\n"
 	@printf "clean\tClean all intermediate files\n"
+	@printf "chser\tChange Serial number in main.sh\n"
 	@printf "git\tCommit and push, you must add first\n"

@@ -1,0 +1,28 @@
+#!/bin/bash
+
+DEBUGMODE=0
+TMP=/tmp/main.sh.serial.change.${RANDOM}
+TARGET=main.sh
+FIELDNAME="BASHRCVERSION"
+
+SERIALNUMBER=$(date +%Y%m%d%H%M)
+
+sed "{s/^${FIELDNAME}\=\\\"[0-9]*\\\"/${FIELDNAME}\=\\\"${SERIALNUMBER}\\\"/}" "${TARGET}" > "${TMP}"
+
+if [ ${DEBUGMODE} -eq 0 ]; then
+	rm ${TARGET}
+	cp ${TMP} ${TARGET}
+else
+	old=$(grep -E "^${FIELDNAME}" ${TARGET})
+
+	printf "Change : was ${old}, new "
+	grep -E "^${FIELDNAME}" ${TMP}
+
+	read -p "Show new file (y/n)? " -n 1
+
+	[ "${REPLY}" = "y" ] && less "${TMP}"
+
+	printf "\n"
+fi
+
+[ -f ${TMP} ] && rm ${TMP}

@@ -6,7 +6,7 @@
 declare -a UPDCMDS
 MYGITREP=ejohnfel
 BASHRCGIT="https://github.com/ejohnfel/bashrc"
-BASHRCVERSION="202009060647"
+BASHRCVERSION="202009061227"
 ISNAT=0
 INTERNIP=`hostname -I`
 EXTERNIP="UNKNOWN"
@@ -497,11 +497,11 @@ function matchoui()
 #
 # Uses ~/.services as list to check for
 #
-
 function chksvcs()
 {
+	
 	if [ ~/.services ]; then
-		exec 9<"~/.services"
+		exec 9<~/.services
 
 		while read -u 9 host svcname pattern; do
 			# Skip comments
