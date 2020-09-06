@@ -2,7 +2,7 @@ bashrcfiles = main.sh
 aliases= aliases.sh
 updateosfiles = head.txt main.sh updos.sh tail.txt
 services = services.list
-misc = Makefile chgser hostinfo remove.sh
+misc = Makefile chgser hostinfo remove.sh update.sh
 installfolder = /usr/local/bin
 
 all: bashrc updateos
@@ -40,7 +40,7 @@ clean:
 	@[ -e hostinfo.txt ] && rm hostinfo.txt || true
 	@[ -e output.txt ] && rm output.txt || true
 
-git: $(bashrcfiles) $(updateosfiles) $(services) $(misc)
+git: $(bashrcfiles) $(updateosfiles) $(services) $(aliases) $(misc)
 	@./chgser
 	@git add $?
 	@git commit

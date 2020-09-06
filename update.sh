@@ -1,44 +1,85 @@
 #!/bin/bash
 
+DEBUGMODE=0
 TARGET=~/.bash_profile
 TMP=/tmp/bashrc_prefix.${RANDOM}
 MARKER="\\[AUTOMATED-INSERT-MARKER\\]"
 UPDATE=bashrc
-OLD=~/.bashrc
+ALIASES=aliases.sh
+BASHRC=~/.bashrc
 
-# make
+#
+# Functions
+#
 
-if [ -f ${UPDATE} ]; then
-	echo -e "[= Detecting Marker..."
-
-	if grep -q "${MARKER}" ${TARGET}; then
-		OUTPUT=`grep -n "${MARKER}" ${TARGET}`
-
-		if [ ! "${OUTPUT}" = "" ]; then
-			echo "[= Detected Marker"
-			INDEX=`echo ${OUTPUT} | cut -d ":" -f 1`
-
-			INDEX=$(( ${INDEX} - 2 ))
-
-			echo -e "[=== Clearing out old stuff..."
-			sed -n "1,${INDEX}p" ${TARGET} > ${TMP}
-			echo -e "[==== Updating ${TARGET}"
-			cat ${TMP} ${UPDATE} > ${TARGET}
-			echo -e "[=== Done"
-			rm ${TMP}
-		else
-			echo "[== Detected Nothing, Can't Complete"
-		fi
+# Msg Function
+# Parameter: [message]
+function Msg()
+{
+	if [ ${DEBUGMODE} -eq 0 ]; then
+		printf "%s\n" "${*}"
 	else
-		echo -e "[== No Marker Found, Adding Addendum..."
-		cat ${UPDATE} >> ${TARGET}
-		echo -e "[= Done"
+		printf "$(date) : %s\n" "${*}"
 	fi
-else
-	echo -e "Can't find update file: ${UPDATE}"
+}
+
+# Remove Marker and anything past it
+# Parameters: [file to update] [file to add]
+function Update()
+{
+	OUTPUT=$(grep -n "${MARKER}" ${1})
+
+	if [ ! "${OUTPUT}" = "" ]; then
+		Msg "[= Detected Marker"
+		INDEX=$(printf "${OUTPUT}" | cut -d ":" -f 1)
+
+		INDEX=$(( ${INDEX} - 2 ))
+
+		Msg "[=== Clearing out old stuff..."
+		sed -n "1,${INDEX}p" ${1} > ${TMP}
+		Msg "[==== Updating ${1}"
+		cat ${TMP} ${2} > ${1}
+		Msg "[=== Done"
+		rm ${TMP}
+	else
+		Msg "[== Detected Nothing, Can't Complete"
+	fi
+}
+
+# Append To End of File
+# Parameters : [file to add] [file to be added too]
+function Append()
+{
+	cat "${1}" >> "${2}"
+}
+
+#
+# Main Loop
+#
+
+if grep -q "${MARKER}" ${BASHRC} && ! grep -q "${MARKER}" "${TARGET}"; then
+	Msg "Detected marker in ${BASHRC}, removing from there..."
+	./remove.sh
 fi
 
-if grep -q "${MARKER}" ${OLD}; then
-	printf "Detected marker in ${OLD}, removing from there..."
-	./remove.sh
+if [ -f ${UPDATE} ]; then
+	Msg "[= Detecting Marker..."
+
+	if grep -q "${MARKER}" ${TARGET}; then
+		Update "${TARGET}" "${UPDATE}"
+	else
+		Msg "[== No Marker Found, Adding Addendum..."
+		Append "${UPDATE}" "${TARGET}"
+		Msg "[= Done"
+	fi
+
+	if grep -q "${MARKER}" "${BASHRC}"; then
+		Update "${BASHRC}" "${ALIASES}"
+	else
+		Msg "[== No Marker, appending ${ALIASES} to ${BASHRC}"
+		cat "${ALIASES}" >> "${BASHRC}"
+		Msg "[= Done"
+	fi
+else
+	Msg "Can't find update file: ${UPDATE}"
 fi
