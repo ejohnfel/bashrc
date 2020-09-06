@@ -1,4 +1,5 @@
-bashrcfiles = main.sh aliases.sh
+bashrcfiles = main.sh
+aliases= aliases.sh
 updateosfiles = head.txt main.sh updos.sh tail.txt
 services = services.list
 misc = Makefile chgser hostinfo remove.sh
