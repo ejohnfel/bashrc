@@ -39,6 +39,8 @@ clean:
 	@[ -e updateos ] && rm updateos || true
 	@[ -e hostinfo.txt ] && rm hostinfo.txt || true
 	@[ -e output.txt ] && rm output.txt || true
+	@[ -f /tmp/.bashrc.bak ] && rm /tmp/.bashrc.bak || true
+	@[ -f /tmp/.bash_profile.bak && rm /tmp/.bash_profile.bak || true
 
 git: $(bashrcfiles) $(updateosfiles) $(services) $(aliases) $(misc)
 	@./chgser
