@@ -6,7 +6,7 @@
 declare -a UPDCMDS
 MYGITREP=ejohnfel
 BASHRCGIT="https://github.com/ejohnfel/bashrc"
-BASHRCVERSION="202009061316"
+BASHRCVERSION="202009061324"
 ISNAT=0
 INTERNIP=`hostname -I`
 EXTERNIP="UNKNOWN"
@@ -499,7 +499,6 @@ function matchoui()
 #
 function chksvcs()
 {
-	
 	if [ ~/.services ]; then
 		exec 9<~/.services
 
@@ -641,6 +640,3 @@ FortuneCow
 # Sayings
 RandomSaying
 
-# Only useful when 'hollywood' and/or mplayer is installed
-alias mi="mplayer -vo caca /srv/storage/media/music/Soundtracks/mi.mp4"
-alias os="cat /etc/os-release"
