@@ -1,5 +1,6 @@
 #!/bin/bash
 
+BACKUP=1
 DEBUGMODE=0
 TARGET=~/.bash_profile
 TMP=/tmp/bashrc_prefix.${RANDOM}
@@ -30,6 +31,12 @@ function Update()
 	OUTPUT=$(grep -n "${MARKER}" ${1})
 
 	if [ ! "${OUTPUT}" = "" ]; then
+
+		if [ ${BACKUP} -gt 0 ]; then
+			bname=$(basename "${1}")
+			cp "${1}" "/tmp/${bname}.bak"
+		fi
+
 		Msg "[= Detected Marker"
 		INDEX=$(printf "${OUTPUT}" | cut -d ":" -f 1)
 
@@ -50,6 +57,11 @@ function Update()
 # Parameters : [file to add] [file to be added too]
 function Append()
 {
+	if [ ${BACKUP} -gt 0 ]; then
+		bname=$(basename "${2}")
+		cp "${2}" "/tmp/${bname}.bak"
+	fi
+
 	cat "${1}" >> "${2}"
 }
 
@@ -77,7 +89,7 @@ if [ -f ${UPDATE} ]; then
 		Update "${BASHRC}" "${ALIASES}"
 	else
 		Msg "[== No Marker, appending ${ALIASES} to ${BASHRC}"
-		cat "${ALIASES}" >> "${BASHRC}"
+		Append "${ALIASES}" "${BASHRC}"
 		Msg "[= Done"
 	fi
 else
