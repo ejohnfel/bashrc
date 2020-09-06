@@ -6,7 +6,7 @@
 declare -a UPDCMDS
 MYGITREP=ejohnfel
 BASHRCGIT="https://github.com/ejohnfel/bashrc"
-BASHRCVERSION="202009061325"
+BASHRCVERSION="202009061443"
 ISNAT=0
 INTERNIP=`hostname -I`
 EXTERNIP="UNKNOWN"
@@ -489,36 +489,6 @@ function matchoui()
 	else
 		printf "Cannot find, ${OUIS}, database\n"
 		return 1
-	fi
-}
-
-#
-# chksvcs :  Check to see if certain services are running
-#
-# Uses ~/.services as list to check for
-#
-function chksvcs()
-{
-	if [ ~/.services ]; then
-		exec 9<~/.services
-
-		while read -u 9 host svcname pattern; do
-			# Skip comments
-			[[ "${host}" =~ ^[\s]*# ]] && continue
-
-			if [ "${host}" = "${HOSTNAME}" ]; then
-				printf "Service : ${svcname} ("
-				if ps -ef | grep -E "${pattern}" > /dev/null; then
-					printf "Running)\n"
-				else
-					printf "NOT RUNNING ***)\n"
-				fi
-			fi
-		done
-
-		exec 9<&-
-	else
-		printf "No ~/.services file\n"
 	fi
 }
 
