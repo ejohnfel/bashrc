@@ -5,6 +5,7 @@ DEBUGMODE=0
 TARGET=~/.bash_profile
 TMP=/tmp/bashrc_prefix.${RANDOM}
 MARKER="\\[AUTOMATED-INSERT-MARKER\\]"
+ALIASMARKER="\\[MARKER-ALIASES\\]"
 UPDATE=bashrc
 ALIASES=aliases.sh
 BASHRC=~/.bashrc
@@ -25,10 +26,10 @@ function Msg()
 }
 
 # Remove Marker and anything past it
-# Parameters: [file to update] [file to add]
+# Parameters: [file to update] [file to add] [marker]
 function Update()
 {
-	OUTPUT=$(grep -n "${MARKER}" ${1})
+	OUTPUT=$(grep -n "${3}" ${1})
 
 	if [ ! "${OUTPUT}" = "" ]; then
 
@@ -69,7 +70,7 @@ function Append()
 # Main Loop
 #
 
-if grep -q "${MARKER}" ${BASHRC} && ! grep -q "${MARKER}" "${TARGET}"; then
+if grep -q "${MARKER}" "${BASHRC}" && ! grep -q "${MARKER}" "${TARGET}"; then
 	Msg "Detected marker in ${BASHRC}, removing from there..."
 	./remove.sh
 fi
@@ -77,16 +78,16 @@ fi
 if [ -f ${UPDATE} ]; then
 	Msg "[= Detecting Marker..."
 
-	if grep -q "${MARKER}" ${TARGET}; then
-		Update "${TARGET}" "${UPDATE}"
+	if grep -q "${MARKER}" "${TARGET}"; then
+		Update "${TARGET}" "${UPDATE}" "${MARKER}"
 	else
 		Msg "[== No Marker Found, Adding Addendum..."
 		Append "${UPDATE}" "${TARGET}"
 		Msg "[= Done"
 	fi
 
-	if grep -q "${MARKER}" "${BASHRC}"; then
-		Update "${BASHRC}" "${ALIASES}"
+	if grep -q "${ALIASMARKER}" "${BASHRC}"; then
+		Update "${BASHRC}" "${ALIASES}" "${ALIASMARKER}"
 	else
 		Msg "[== No Marker, appending ${ALIASES} to ${BASHRC}"
 		Append "${ALIASES}" "${BASHRC}"
