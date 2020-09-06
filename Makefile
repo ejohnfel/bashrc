@@ -1,6 +1,7 @@
 bashrcfiles = main.sh aliases.sh
 updateosfiles = head.txt main.sh updos.sh tail.txt
 services = services.list
+misc = Makefile chgser hostinfo remove.sh
 installfolder = /usr/local/bin
 
 all: bashrc updateos
@@ -38,10 +39,9 @@ clean:
 	@[ -e hostinfo.txt ] && rm hostinfo.txt || true
 	@[ -e output.txt ] && rm output.txt || true
 
-chser:
+git: $(bashrcfiles) $(updateosfiles) $(services) $(misc)
 	@./chgser
-
-git:
+	@git add $?
 	@git commit
 	@git push
 
@@ -55,5 +55,4 @@ actions:
 	@printf "update\tDo update deploy\n"
 	@printf "automation\tDo Automation deploy\n"
 	@printf "clean\tClean all intermediate files\n"
-	@printf "chser\tChange Serial number in main.sh\n"
-	@printf "git\tCommit and push, you must add first\n"
+	@printf "git\tAdd, commit and push, you must add first\n"
