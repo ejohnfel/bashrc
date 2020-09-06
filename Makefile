@@ -1,8 +1,12 @@
 bashrcfiles = main.sh aliases.sh
 updateosfiles = head.txt main.sh updos.sh tail.txt
+services = services.list
 installfolder = /usr/local/bin
 
 all: bashrc updateos
+
+services: $(services)
+	@cp $(services) ~/.services
 
 bashrc: $(bashrcfiles)
 	@cat $(bashrcfiles) > $@
@@ -10,7 +14,7 @@ bashrc: $(bashrcfiles)
 updateos: $(updateosfiles)
 	@cat $(updateosfiles) > $@
 
-update: bashrc updateos automation
+update: bashrc updateos automation services
 	@chmod ugo+rx update.sh
 	@./update.sh
 

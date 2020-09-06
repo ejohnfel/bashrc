@@ -1,0 +1,19 @@
+# Gammapi Services
+gammapi Bind named
+gammapi DHCPD dhcpd
+gammapi NFS nfsd
+# Merry Services
+merry Redis redis-server
+merry Apache apache2
+merry Docker dockerd
+merry Memcache memcache
+merry Squid squid
+merry Elastic elastic
+# Soliton Services
+soliton Docker dockerd
+soliton Elastic elastic
+# Graviton
+graviton Docker dockerd
+graviton Elastic elastic
+# Operations
+operations Apache apache2

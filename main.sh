@@ -6,7 +6,7 @@
 declare -a UPDCMDS
 MYGITREP=ejohnfel
 BASHRCGIT="https://github.com/ejohnfel/bashrc"
-BASHRCVERSION="20200819222808"
+BASHRCVERSION="202009060647"
 ISNAT=0
 INTERNIP=`hostname -I`
 EXTERNIP="UNKNOWN"
@@ -16,6 +16,8 @@ LOCATION="internal"
 MYDOMAIN="digitalwicky.biz"
 SAYINGS="/srv/storage/data/waiting.txt"
 BSHDEBUG=0
+MANPAGER='less -s -X -F'
+export MANPAGER
 
 CDPATH=.:/srv:/srv/storage:/srv/storage/projects:/srv/storage/projects/scripts:/home/ejohnfelt
 export CDPATH
@@ -490,10 +492,35 @@ function matchoui()
 	fi
 }
 
-# List My Functions
-function myfuncs()
+#
+# chksvcs :  Check to see if certain services are running
+#
+# Uses ~/.services as list to check for
+#
+
+function chksvcs()
 {
-	compgen -A function | egrep -v "^_|^quote$|^quote_|^command_not|^dequote"
+	if [ ~/.services ]; then
+		exec 9<"~/.services"
+
+		while read -u 9 host svcname pattern; do
+			# Skip comments
+			[[ "${host}" =~ ^[\s]*# ]] && continue
+
+			if [ "${host}" = "${HOSTNAME}" ]; then
+				printf "Service : ${svcname} ("
+				if ps -ef | grep -E "${pattern}" > /dev/null; then
+					printf "Running)\n"
+				else
+					printf "NOT RUNNING ***)\n"
+				fi
+			fi
+		done
+
+		exec 9<&-
+	else
+		printf "No ~/.services file\n"
+	fi
 }
 
 # List ssh hosts on ssh-config
@@ -538,6 +565,14 @@ function sshhosts()
 
 	unset hosts_x
 	unset dns_x
+}
+
+#
+# List My Functions : A Meta Function
+#
+function myfuncs()
+{
+	compgen -A function | egrep -v "^_|^quote$|^quote_|^command_not|^dequote"
 }
 
 # Env Variable for DFREE
