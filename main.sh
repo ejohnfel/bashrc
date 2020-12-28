@@ -6,7 +6,7 @@
 declare -a UPDCMDS
 MYGITREP=ejohnfel
 BASHRCGIT="https://github.com/ejohnfel/bashrc"
-BASHRCVERSION="202012272251"
+BASHRCVERSION="202012272304"
 ISNAT=0
 INTERNIP=`hostname -I`
 EXTERNIP="UNKNOWN"
@@ -61,6 +61,38 @@ function SetPrefix()
 function settarget()
 {
 	[ ! "${1}" = "" ] && export TARGET="${*}"
+}
+
+# Enter Shell in Docker Containers
+function dockershell()
+{
+	CONTAINERPATH="/srv/storage/projects/containers/"
+
+	if [ ! "${2}" = "" ]; then
+		set CNTRSHELL="${2}"
+	else
+		set CNTRSHELL="bash"
+	fi
+
+	if [ -d "${CONTAINERPATH}${1}" ]; then
+		pushd "${CONTAINERPATH}${1}" > /dev/null
+
+		if [ -f Makefile ]; then
+			if grep -E -s "^shell\:"; then
+				sudo make shell
+			else
+				printf "There is a Makefile, but no shell action, going generic..."
+
+				sudo docker exec -it "${1}" "${CNTRSHELL}"
+			fi
+		fi
+
+		popd > /dev/null
+	else
+		printf "No Makefile, going generic...\n"
+
+		sudo docker exec -it "${1}" "${CNTRSHELL}"
+	fi
 }
 
 # SSH Setup Stuff
