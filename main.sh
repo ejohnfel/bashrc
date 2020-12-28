@@ -6,7 +6,7 @@
 declare -a UPDCMDS
 MYGITREP=ejohnfel
 BASHRCGIT="https://github.com/ejohnfel/bashrc"
-BASHRCVERSION="202012272304"
+BASHRCVERSION="202012272309"
 ISNAT=0
 INTERNIP=`hostname -I`
 EXTERNIP="UNKNOWN"
@@ -69,16 +69,16 @@ function dockershell()
 	CONTAINERPATH="/srv/storage/projects/containers/"
 
 	if [ ! "${2}" = "" ]; then
-		set CNTRSHELL="${2}"
+		CNTRSHELL="${2}"
 	else
-		set CNTRSHELL="bash"
+		CNTRSHELL="bash"
 	fi
 
 	if [ -d "${CONTAINERPATH}${1}" ]; then
 		pushd "${CONTAINERPATH}${1}" > /dev/null
 
 		if [ -f Makefile ]; then
-			if grep -E -s "^shell\:"; then
+			if grep -q -E "^shell\:" Makefile; then
 				sudo make shell
 			else
 				printf "There is a Makefile, but no shell action, going generic..."
