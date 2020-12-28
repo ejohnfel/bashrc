@@ -1,0 +1,36 @@
+########################################################
+# [AUTOMATED-INSERT-MARKER]
+# Author Eric Johnfelt
+# Date 12/27/2020
+# Title Environment variable snippets
+
+# Git Related things
+export MYGITREP=ejohnfel
+export BASHRCGIT="https://github.com/ejohnfel/bashrc"
+
+# Location/Net/IP Related things
+export ISNAT=0
+export INTERNIP=`hostname -I`
+export EXTERNIP="UNKNOWN"
+export LOCATION="internal"
+export MYDOMAIN="digitalwicky.biz"
+
+# Uh... forgot what these are for
+export FIXCHECK=""
+export PREFIX=""
+
+# Locations of things of interest
+export SAYINGS="/srv/storage/data/waiting.txt"
+export PROMNT="/srv/storage/projects"
+export STOMNT="/srv/storage"
+export DATMNT="/srv/storage/data"
+export SCRMNT="/srv/storage/projects/scripts"
+
+# Flags & Script Runtime Placeholders
+export BSHDEBUG=0
+export TARGET=""
+
+# Shell Environment Enhancements
+export MANPAGER='less -s -X -F'
+export CDPATH=.:/srv:/srv/storage:/srv/storage/projects:/srv/storage/projects/scripts:/home/ejohnfelt
+

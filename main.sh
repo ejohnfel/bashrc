@@ -6,7 +6,7 @@
 declare -a UPDCMDS
 MYGITREP=ejohnfel
 BASHRCGIT="https://github.com/ejohnfel/bashrc"
-BASHRCVERSION="202009112349"
+BASHRCVERSION="202012272251"
 ISNAT=0
 INTERNIP=`hostname -I`
 EXTERNIP="UNKNOWN"
@@ -55,6 +55,12 @@ function SetPrefix()
 	if [ ! "${LOGNAME}" = "root" ]; then
 		PREFIX="sudo"
 	fi
+}
+
+# Set Target Variable
+function settarget()
+{
+	[ ! "${1}" = "" ] && export TARGET="${*}"
 }
 
 # SSH Setup Stuff

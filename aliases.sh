@@ -1,6 +1,7 @@
 #############################################
 # [MARKER-ALIASES]
 # Aliases
+# Date 12/27/2020
 
 alias rootme="sudo -s"
 alias cls=clear
@@ -11,3 +12,7 @@ alias rcme="source ~/.bash_profile"
 # Only useful when 'hollywood' and/or mplayer is installed
 alias mi="mplayer -vo caca /srv/storage/media/music/Soundtracks/mi.mp4"
 alias os="cat /etc/os-release"
+
+# Python VENV stuff
+alias activate="source bin/activate"
+

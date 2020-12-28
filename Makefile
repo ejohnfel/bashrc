@@ -1,5 +1,4 @@
-bashrcfiles = main.sh
-aliases= aliases.sh
+bashrcfiles = envs.txt main.sh aliases.sh
 updateosfiles = head.txt main.sh updos.sh tail.txt
 misc = Makefile chgser hostinfo remove.sh update.sh
 installfolder = /usr/local/bin
@@ -38,7 +37,7 @@ clean:
 	@[ -f /tmp/.bashrc.bak ] && rm /tmp/.bashrc.bak || true
 	@[ -f /tmp/.bash_profile.bak ] && rm /tmp/.bash_profile.bak || true
 
-git: $(bashrcfiles) $(updateosfiles) $(aliases) $(misc)
+git: $(bashrcfiles) $(updateosfiles) $(misc)
 	@./chgser
 	@git add $?
 	@git commit
