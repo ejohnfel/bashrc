@@ -1,0 +1,33 @@
+########################################################
+# [AUTOMATED-INSERT-MARKER]
+# Author Eric Johnfelt
+# Date 1/30/2021
+
+# NewNamedScreen : Create a new named screen instance
+function NewNamedScreen()
+{
+	exec screen -q -S "${1}" -t "${2}"
+}
+
+if [[ $- =~ .*i.* ]]; then
+	if ! screen -ls "Login SCREEN" > /dev/null; then
+		# No Login SCREEN
+		NewNamedScreen "Login SCREEN" "Login Screen"
+	else
+		printf "Login Screen Exists\n"
+		echo -e "\a"
+		read -n1 -t10 -p "Create a new one (y/n)? "
+		printf "\n"
+
+		if [ "${REPLY}" = "y" ]; then
+			read -p "Session Name : " SESSIONNAME
+			read -p "Window Title : " TITLE
+			printf "\n"
+			printf "Remember... CTRL-a a to send commands to a nested SCREEN instance"
+			sleep 5s
+			NewNamedScreen "${SESSIONNAME}" "${TITLE}"
+		fi
+	fi
+fi
+
+[ -f ~/.bashrc ] && source ~/.bashrc
