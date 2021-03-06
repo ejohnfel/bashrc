@@ -6,7 +6,7 @@
 declare -a UPDCMDS
 MYGITREP=ejohnfel
 BASHRCGIT="https://github.com/ejohnfel/bashrc"
-BASHRCVERSION="202103060034"
+BASHRCVERSION="202103060038"
 ISNAT=0
 INTERNIP=`hostname -I`
 EXTERNIP="UNKNOWN"
@@ -459,6 +459,29 @@ function screens()
 	fi
 }
 
+# Mk Ramdisk
+function mkram()
+{
+	if [ ! "${1}" = "" ]; then
+		sudo mkdir -p /media/ram && \
+		sudo mount -t tmpfs tmpfs /media/ram -o size=${1} && \
+		printf "Ramdisk created successfully on /media/ram\n"
+	else
+		printf "You must provide a size (i.e. 8192M, 8G, etc)\n"
+	fi
+}
+
+# Rm Ramdisk
+function rmram()
+{
+	if [ -d /media/ram ]; then
+		sudo umount /media/ram && \
+		printf "Ramdisk removed successfully\n"
+	else
+		printf "No ramdisk to remove\n"
+	fi
+}
+
 # List Only Valid Mounts
 function mounts()
 {
@@ -585,20 +608,6 @@ function sshhosts()
 
 	unset hosts_x
 	unset dns_x
-}
-
-#
-# Mk Ramdisk
-#
-function mkram()
-{
-	if [ ! "${1}" = "" ]; then
-		sudo mkdir -p /media/ram && \
-		sudo mount -t tmpfs tmpfs /media/ram -o size=${1} && \
-		printf "Ramdisk created successfully on /media/ram\n"
-	else
-		printf "You must provide a size (i.e. 8192M, 8G, etc)\n"
-	fi
 }
 
 #
