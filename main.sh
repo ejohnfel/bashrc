@@ -594,7 +594,8 @@ function mkram()
 {
 	if [ ! "${1}" = "" ]; then
 		sudo mkdir -p /media/ram && \
-		sudo mount -t tmpfs tmpfs /media/ram -o size=${1}
+		sudo mount -t tmpfs tmpfs /media/ram -o size=${1} && \
+		printf "Ramdisk created successfully on /media/ram\n"
 	else
 		printf "You must provide a size (i.e. 8192M, 8G, etc)\n"
 	fi
