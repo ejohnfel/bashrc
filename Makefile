@@ -1,7 +1,7 @@
 bashrcfiles = envs.txt main.sh aliases.sh
 bashprofilefiles = profile.txt
 updateosfiles = head.txt main.sh updos.sh tail.txt
-misc = Makefile chgser hostinfo remove.sh update.sh
+misc = Makefile chgser hostinfo update.sh
 installfolder = /usr/local/bin
 
 all: bashrc updateos
