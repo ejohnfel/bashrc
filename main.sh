@@ -6,7 +6,7 @@
 declare -a UPDCMDS
 MYGITREP=ejohnfel
 BASHRCGIT="https://github.com/ejohnfel/bashrc"
-BASHRCVERSION="202012272309"
+BASHRCVERSION="202101310035"
 ISNAT=0
 INTERNIP=`hostname -I`
 EXTERNIP="UNKNOWN"
@@ -60,7 +60,20 @@ function SetPrefix()
 # Set Target Variable
 function settarget()
 {
-	[ ! "${1}" = "" ] && export TARGET="${*}"
+	if [ ! "${1}" = "" ]; then
+		TARGET="${*}"
+	fi
+
+	export TARGET
+}
+
+# See How Man CPU's a Machine Has
+function cpus()
+{
+	count=$(cat /proc/cpuinfo | grep "processor" | wc -l | cut -d" " -f1)
+	ptype=$(cat /proc/cpuinfo | grep "model name" | head -n 1 | cut -d":" -f2 | cut -d" " -f2-)
+
+	printf "%d x %s\n" "${count}" "${ptype}"
 }
 
 # Enter Shell in Docker Containers
@@ -572,6 +585,19 @@ function sshhosts()
 
 	unset hosts_x
 	unset dns_x
+}
+
+#
+# Mk Ramdisk
+#
+function mkram()
+{
+	if [ ! "${1}" = "" ]; then
+		sudo mkdir -p /media/ram && \
+		sudo mount -t tmpfs tmpfs /media/ram -o size=${1}
+	else
+		printf "You must provide a size (i.e. 8192M, 8G, etc)\n"
+	fi
 }
 
 #
