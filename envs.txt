@@ -32,5 +32,5 @@ export TARGET=""
 
 # Shell Environment Enhancements
 export MANPAGER='less -s -X -F'
-export CDPATH=.:/srv:/srv/storage:/srv/storage/projects:/srv/storage/projects/scripts:/home/ejohnfelt
+export CDPATH=.:/srv:/srv/storage:/srv/storage/projects:/srv/storage/projects/containers:/srv/storage/projects/scripts:/home/ejohnfelt
 

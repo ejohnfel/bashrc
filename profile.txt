@@ -3,6 +3,27 @@
 # Author Eric Johnfelt
 # Date 1/30/2021
 
+
+# Select Screen, Select an Existing Screen to attach too
+function SelectScreen()
+{
+	list=$(screen -ls | egrep "^[\s]+[0-9]+\.[a-z0-9]")
+
+	selection=""
+
+	select screen in Quit ${list}; do
+		if [ "${screen}" = "Quit" ]; then
+			break
+		elif [ ! "${screen}" = "" ]; then
+			selection = "${screen}"
+		fi
+	done
+
+	if [ ! "${selection}" = "" ]; then
+		screen -R "${selection}"
+	fi
+}
+
 # NewNamedScreen : Create a new named screen instance
 function NewNamedScreen()
 {
@@ -16,6 +37,13 @@ if [[ $- =~ .*i.* ]]; then
 	else
 		printf "Login Screen Exists\n"
 		echo -e "\a"
+		read -n1 -t10 -p "Connect (y/n)? "
+		printf "\n"
+
+		if [ "${REPLY}" = "y" ]; then
+			SelectScreen
+		fi
+
 		read -n1 -t10 -p "Create a new one (y/n)? "
 		printf "\n"
 
