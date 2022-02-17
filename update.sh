@@ -54,7 +54,8 @@ function Remove()
 			echo -e "[== No Marker Found, we good..."
 		fi
 	else
-		echo -e "Can't find target file: ${1}"
+		echo -e "[= Can't find target file: ${1}, creating empty file"
+		touch "${1}"
 	fi
 }
 
