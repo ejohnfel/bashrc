@@ -348,7 +348,7 @@ function GetPackageManager()
 	pacman --version > /dev/null 2>&1
 
 	if [ $? = 0 ]; then
-		UPDCMDS[0]="pacman update"
+		UPDCMDS[0]="pacman -Syyu --noconfirm -q"
 
 		return 0
 	fi
