@@ -6,7 +6,7 @@
 declare -a UPDCMDS
 MYGITREP=ejohnfel
 BASHRCGIT="https://github.com/ejohnfel/bashrc"
-BASHRCVERSION="202212061705"
+BASHRCVERSION="20221217202600"
 ISNAT=0
 INTERNIP=`hostname -I`
 EXTERNIP="UNKNOWN"
@@ -18,6 +18,8 @@ SAYINGS="/srv/storage/data/waiting.txt"
 BSHDEBUG=0
 MANPAGER='less -s -X -F'
 export MANPAGER
+
+HISTTIMEFORMAT='%F %T '
 
 CDPATH=.:/srv:/srv/storage:/srv/storage/projects:/srv/storage/projects/scripts:/home/ejohnfelt
 export CDPATH
