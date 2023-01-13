@@ -19,3 +19,5 @@ alias os="cat /etc/os-release"
 # Python VENV stuff
 alias activate="source bin/activate"
 
+# Custom Stoof
+alias sshprofiles="grep -E '^host' ~/.ssh/config | cut -d' ' -f 2 | less"
