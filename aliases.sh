@@ -21,3 +21,5 @@ alias activate="source bin/activate"
 
 # Custom Stoof
 alias sshprofiles="grep -E '^host' ~/.ssh/config | cut -d' ' -f 2 | less"
+alias patchcloud="screen -c ~/.patchcloudrc"
+alias patchhome="screen -c ~/.patchhomerc"
