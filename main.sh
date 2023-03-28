@@ -344,6 +344,7 @@ function GetPackageManager()
 	if [ $? = 0 ]; then
 		printf "Selecting DNF Package Manager\n"
 		UPDCMDS[0]="dnf upgrade"
+		UPDCMDS[1]="dnf autoremove"
 
 		return 1
 	fi
