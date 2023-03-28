@@ -6,7 +6,7 @@
 declare -a UPDCMDS
 MYGITREP=ejohnfel
 BASHRCGIT="https://github.com/ejohnfel/bashrc"
-BASHRCVERSION="20230102231000"
+BASHRCVERSION="20230327213900"
 ISNAT=0
 INTERNIP=`hostname -I`
 EXTERNIP="UNKNOWN"
@@ -329,6 +329,7 @@ function GetPackageManager()
 	apt-get --version > /dev/null 2>&1
 
 	if [ $? = 0 ]; then
+		printf "Selecting APT Package Manager\n"
 		FIXCHECK="apt-get --just-print upgrade | grep \"upgraded,\""
 		UPDCMDS[0]="apt-get -qq update"
 		UPDCMDS[1]="apt-get -qq -y upgrade"
@@ -338,9 +339,29 @@ function GetPackageManager()
 		return 1
 	fi
 
+	dnf --version > /dev/null 2>&1
+
+	if [ $? = 0 ]; then
+		printf "Selecting DNF Package Manager\n"
+		UPDCMDS[0]="dnf upgrade"
+
+		return 1
+	fi
+
+	apk --version > /dev/null 2>&1
+
+	if $? = 0 ]; then
+		printf "Selecting APK Package Manager\n"
+		UPDCMDS[0]="apk update --quiet --no-progress"
+		UPDCMDS[1]="apk upgrade --quiet --no-progress"
+
+		return 1
+	fi
+
 	yum --version > /dev/null 2>&1
 
 	if [ $? = 0 ]; then
+		printf "Selecting YUM Package Manager\n"
 		FIXCHECK="yum check-update"
 		UPDCMDS=( "yum check-update" "yum -y update" "yum -y upgrade" "yum -y autoremove" )
 
@@ -350,33 +371,37 @@ function GetPackageManager()
 	pacman --version > /dev/null 2>&1
 
 	if [ $? = 0 ]; then
+		printf "Selecting PACMAN Package Manager\n"
 		UPDCMDS[0]="pacman -Syyu --noconfirm -q"
 
-		return 0
-	fi
-
-	opkg --version > /dev/null 2>&1
-
-	if [ $? = 0 ]; then
-		UPDCMDS[0]="opkg update"
-
-		return 0
-	fi
-
-	dpkg --version > /dev/null 2>&1
-
-	if [ $? = 0 ]; then
-		UPDCMDS[0]="dpkg update"
-
-		return 0
+		return 1
 	fi
 
 	rpm --version > /dev/null 2>&1
 
 	if [ $? = 0 ]; then
+		printf "Selecting RPM Package Manager\n"
 		UPDCMDS[0]="rpm update"
 
-		return 0
+		return 1
+	fi
+
+	opkg --version > /dev/null 2>&1
+
+	if [ $? = 0 ]; then
+		printf "Selecting OPKG Package Manager\n"
+		UPDCMDS[0]="opkg update"
+
+		return 1
+	fi
+
+	dpkg --version > /dev/null 2>&1
+
+	if [ $? = 0 ]; then
+		printf "Selecting DPKG Package Manager\n"
+		UPDCMDS[0]="dpkg update"
+
+		return 1
 	fi
 
 	echo -e "Cannot determine package manager.. quitting..."
