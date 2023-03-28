@@ -6,7 +6,7 @@
 declare -a UPDCMDS
 MYGITREP=ejohnfel
 BASHRCGIT="https://github.com/ejohnfel/bashrc"
-BASHRCVERSION="20230327213900"
+BASHRCVERSION="20230327214900"
 ISNAT=0
 INTERNIP=`hostname -I`
 EXTERNIP="UNKNOWN"
@@ -351,7 +351,7 @@ function GetPackageManager()
 
 	apk --version > /dev/null 2>&1
 
-	if $? = 0 ]; then
+	if [ $? = 0 ]; then
 		printf "Selecting APK Package Manager\n"
 		UPDCMDS[0]="apk update --quiet --no-progress"
 		UPDCMDS[1]="apk upgrade --quiet --no-progress"
