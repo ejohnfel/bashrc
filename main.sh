@@ -8,7 +8,7 @@ MYIP=$(ip a | grep -E "^\s+inet\s" | grep -v "127.0.0.0" | tr -s " " | head -n 1
 declare -a UPDCMDS
 MYGITREP=ejohnfel
 BASHRCGIT="https://github.com/ejohnfel/bashrc"
-BASHRCVERSION="20230730211000"
+BASHRCVERSION="20230730211600"
 ISNAT=0
 #INTERNIP=`hostname -I`
 INTERNIP="${MYIP}"
