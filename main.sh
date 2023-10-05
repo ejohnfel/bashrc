@@ -8,7 +8,7 @@ MYIP=$(ip a | grep -E "^\s+inet\s" | grep -v "127.0.0.0" | tr -s " " | head -n 1
 declare -a UPDCMDS
 MYGITREP=ejohnfel
 BASHRCGIT="https://github.com/ejohnfel/bashrc"
-BASHRCVERSION="20230730212700"
+BASHRCVERSION="20231004235400"
 ISNAT=0
 #INTERNIP=`hostname -I`
 INTERNIP="${MYIP}"
@@ -227,6 +227,11 @@ function updatemybashrc()
 # If Syaings/Waitings File Exists, Print A Random Line From File
 function RandomSaying()
 {
+	if [[ ! $- =~ i ]]; then
+		# If not interactive, say nothing
+		return 0
+	fi
+
 	[ -e "${SAYINGS}" ] && shuf -n1 "${SAYINGS}"
 }
 
@@ -234,6 +239,11 @@ function RandomSaying()
 function FortuneCow()
 {
 	DbgWrite "Starting FortuneCow, checking for fortune"
+
+	if [[ ! $- =~ i ]]; then
+		# if not interactive, say nothing
+		return 0
+	fi
 
 	if fortune > /dev/null 2>&1 ; then
 		DbgWrite "Fortune exists, checking cowsay"
