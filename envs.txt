@@ -4,7 +4,7 @@
 # Date 10/11/2023
 # Title Environment variable snippets
 
-MYIP=$(ip a | grep -E "^\s+inet\s" | grep -v "127.0.0.0" | tr -s " " | head -n 1 | cut -d" " -f3 | cut -d"/" -f 1)
+MYIP=$(ip a | grep -E "^\s+inet\s" | grep -v "127.0.0.1" | tr -s " " | head -n 1 | cut -d" " -f3 | cut -d"/" -f 1)
 
 declare -a UPDCMDS
 
