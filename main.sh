@@ -8,7 +8,7 @@ MYIP=$(ip a | grep -E "^\s+inet\s" | grep -v "127.0.0.0" | tr -s " " | head -n 1
 declare -a UPDCMDS
 MYGITREP=ejohnfel
 BASHRCGIT="https://github.com/ejohnfel/bashrc"
-BASHRCVERSION="20231004235400"
+BASHRCVERSION="20231011132800"
 ISNAT=0
 #INTERNIP=`hostname -I`
 INTERNIP="${MYIP}"
@@ -26,6 +26,8 @@ HISTTIMEFORMAT='%F %T '
 
 CDPATH=.:/srv:/srv/storage:/srv/storage/projects:/srv/storage/projects/scripts:/home/ejohnfelt
 export CDPATH
+
+PATH="${PATH}:~/bin"
 
 # DbgWrite : Internal Debug Messaging
 function DbgWrite()
