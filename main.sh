@@ -3,30 +3,7 @@
 # Author Eric Johnfelt
 # Date 2/15/2020
 
-MYIP=$(ip a | grep -E "^\s+inet\s" | grep -v "127.0.0.0" | tr -s " " | head -n 1 | cut -d" " -f3 | cut -d"/" -f 1)
-
-declare -a UPDCMDS
-MYGITREP=ejohnfel
-BASHRCGIT="https://github.com/ejohnfel/bashrc"
-BASHRCVERSION="20231011143500"
-ISNAT=0
-INTERNIP="${MYIP}"
-EXTERNIP="UNKNOWN"
-FIXCHECK=""
-PREFIX=""
-LOCATION="internal"
-MYDOMAIN="digitalwicky.biz"
-SAYINGS="/srv/storage/data/waiting.txt"
-BSHDEBUG=0
-MANPAGER='less -s -X -F'
-export MANPAGER
-
-HISTTIMEFORMAT='%F %T '
-
-CDPATH=.:/srv:/srv/storage:/srv/storage/projects:/srv/storage/projects/scripts:/home/ejohnfelt
-export CDPATH
-
-PATH="${PATH}:~/bin"
+BASHRCVERSION="20231011144700"
 
 # DbgWrite : Internal Debug Messaging
 function DbgWrite()

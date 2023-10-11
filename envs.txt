@@ -1,23 +1,34 @@
 ########################################################
 # [AUTOMATED-INSERT-MARKER]
 # Author Eric Johnfelt
-# Date 12/27/2020
+# Date 10/11/2023
 # Title Environment variable snippets
 
-# Git Related things
-export MYGITREP=ejohnfel
-export BASHRCGIT="https://github.com/ejohnfel/bashrc"
+MYIP=$(ip a | grep -E "^\s+inet\s" | grep -v "127.0.0.0" | tr -s " " | head -n 1 | cut -d" " -f3 | cut -d"/" -f 1)
 
-# Location/Net/IP Related things
-export ISNAT=0
-export INTERNIP=`hostname -I`
-export EXTERNIP="UNKNOWN"
-export LOCATION="internal"
-export MYDOMAIN="digitalwicky.biz"
+declare -a UPDCMDS
 
-# Uh... forgot what these are for
-export FIXCHECK=""
-export PREFIX=""
+# Git stuff
+MYGITREP=ejohnfel
+BASHRCGIT="https://github.com/ejohnfel/bashrc"
+
+ISNAT=0
+INTERNIP="${MYIP}"
+EXTERNIP="UNKNOWN"
+
+FIXCHECK=""
+PREFIX=""
+
+LOCATION="internal"
+MYDOMAIN="digitalwicky.biz"
+SAYINGS="/srv/storage/data/waiting.txt"
+BSHDEBUG=0
+MANPAGER='less -s -X -F'
+export MANPAGER
+
+HISTTIMEFORMAT='%F %T '
+
+PATH="${PATH}:~/bin"
 
 # Locations of things of interest
 export SAYINGS="/srv/storage/data/waiting.txt"
