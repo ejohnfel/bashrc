@@ -8,9 +8,8 @@ MYIP=$(ip a | grep -E "^\s+inet\s" | grep -v "127.0.0.0" | tr -s " " | head -n 1
 declare -a UPDCMDS
 MYGITREP=ejohnfel
 BASHRCGIT="https://github.com/ejohnfel/bashrc"
-BASHRCVERSION="20231011132800"
+BASHRCVERSION="20231011143500"
 ISNAT=0
-#INTERNIP=`hostname -I`
 INTERNIP="${MYIP}"
 EXTERNIP="UNKNOWN"
 FIXCHECK=""
@@ -270,7 +269,7 @@ function DetermineLocation()
 	# If external, digitalwicky.net
 	# Note, firewall settings may prevent use of resources
 	TMP=/tmp/dl.${RANDOM}
-	hostname -I > ${TMP}
+	echo "${MYIP}" > ${TMP}
 
 	while read ipaddr; do
 		prefix=`echo ${ipaddr} | cut -d"." -f 1,2`
