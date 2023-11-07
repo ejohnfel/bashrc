@@ -24,7 +24,7 @@ alias ap="ansible-playbook"
 alias kf="ansible-playbook -i inventory.txt keyfacts.xml -l"
 
 # Custom Stoof
-alias sshprofiles="grep -E '^host' ~/.ssh/config | cut -d' ' -f 2 | less"
+alias sshprofiles="grep -E '^(h|H)ost' ~/.ssh/config | cut -d' ' -f 2 | less"
 alias patchcloud="screen -c ~/.patchcloudrc"
 alias patchhome="screen -c ~/.patchhomerc"
 
