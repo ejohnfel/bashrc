@@ -227,7 +227,7 @@ function updatemybashrc()
 
 	cd .. > /dev/null
 
-	[ -e /tmp/bashrc] && sudo rm -Rf /tmp/bashrc
+	[ -e /tmp/bashrc ] && sudo rm -Rf /tmp/bashrc
 
 	popd > /dev/null
 }
