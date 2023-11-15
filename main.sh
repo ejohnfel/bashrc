@@ -3,7 +3,7 @@
 # Author Eric Johnfelt
 # Date 2/15/2020
 
-BASHRCVERSION="202311150905"
+BASHRCVERSION="202311150907"
 
 # DbgWrite : Internal Debug Messaging
 function DbgWrite()

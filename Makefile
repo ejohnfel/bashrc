@@ -39,6 +39,9 @@ clean:
 	@[ -f /tmp/.bashrc.bak ] && rm /tmp/.bashrc.bak || true
 	@[ -f /tmp/.bash_profile.bak ] && rm /tmp/.bash_profile.bak || true
 
+serial:
+	@./chgser
+
 git: $(bashrcfiles) $(updateosfiles) $(misc)
 	@./chgser
 	@git add $?
@@ -55,4 +58,5 @@ actions:
 	@printf "update\t\tDo update deploy\n"
 	@printf "automation\tDo Automation deploy (reqs root, will attempt to sudo)\n"
 	@printf "clean\t\tClean all intermediate files\n"
+	@printf "serial\t\tChange Serial Number\n"
 	@printf "git\t\tAdd, commit and push, you must add first\n"
