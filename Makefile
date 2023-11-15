@@ -14,7 +14,7 @@ bash_envs: bash_envs.sh
 
 # Assemble updateos
 updateos: head.sh bash_functions.sh updos.sh tail.sh
-	@cat $< > $@
+	@cat $^ > $@
 
 update: bash_envs bash_aliases bash_functions automation
 	@chmod ugo+rx update.sh
