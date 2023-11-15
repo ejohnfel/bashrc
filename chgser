@@ -2,7 +2,7 @@
 
 DEBUGMODE=0
 TMP=/tmp/main.sh.serial.change.${RANDOM}
-TARGET=main.sh
+TARGET=bashrc.sh
 FIELDNAME="BASHRCVERSION"
 
 SERIALNUMBER=$(date +%Y%m%d%H%M)

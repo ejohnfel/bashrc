@@ -1,24 +1,29 @@
-bashrcfiles = envs.txt main.sh aliases.sh
-bashprofilefiles = profile.txt
-updateosfiles = head.txt main.sh updos.sh tail.txt
-misc = Makefile chgser hostinfo update.sh
 installfolder = /usr/local/bin
 
 all: bashrc updateos
 
-bashrc: $(bashrcfiles)
-	@cat $(bashrcfiles) > $@
+# Assemble RC Ecosystem
+bash_functions: bash_functions.sh
+	@cat $< > ~/.$@
 
-updateos: $(updateosfiles)
-	@cat $(updateosfiles) > $@
+bash_aliases: bash_aliases.sh
+	@cat $< > ~/.$@
 
-update: bashrc updateos automation $(bashprofilefiles)
+bash_envs: bash_envs.sh
+	@cat $< > ~/.$@
+
+# Assemble updateos
+updateos: head.sh bash_functions.sh updos.sh tail.sh
+	@sudo cat $< > $@
+
+update: bash_envs bash_aliases bash_functions automation
 	@chmod ugo+rx update.sh
-	@./update.sh
+	@./update.sh bashrc.sh ~/.bashrc
+	@./update.sh bash_profile.sh ~/.bash_profile
 
 automation: updateos
 ifeq "$(LOGNAME)" "root"
-	@cp updateos $(unattfiles) $(installfolder)
+	@cp updateos $(installfolder)
 	@chmod ugo=rx $(installfolder)/updateos
 	@cp hostinfo $(installfolder)
 	@chmod ugo=rx $(installfolder)/hostinfo

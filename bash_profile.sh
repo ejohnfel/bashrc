@@ -3,32 +3,7 @@
 # Author Eric Johnfelt
 # Date 1/30/2021
 
-
-# Select Screen, Select an Existing Screen to attach too
-function SelectScreen()
-{
-	list=$(screen -ls | egrep "^[\s]+[0-9]+\.[a-z0-9]")
-
-	selection=""
-
-	select screen in Quit ${list}; do
-		if [ "${screen}" = "Quit" ]; then
-			break
-		elif [ ! "${screen}" = "" ]; then
-			selection = "${screen}"
-		fi
-	done
-
-	if [ ! "${selection}" = "" ]; then
-		screen -R "${selection}"
-	fi
-}
-
-# NewNamedScreen : Create a new named screen instance
-function NewNamedScreen()
-{
-	exec screen -q -S "${1}" -t "${2}"
-}
+[ -f ~/.bash_functions ] && source ~/.bash_functions
 
 if [[ $- =~ .*i.* ]]; then
 	if which screen > /dev/null; then

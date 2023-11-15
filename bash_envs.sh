@@ -1,8 +1,9 @@
 ########################################################
 # [AUTOMATED-INSERT-MARKER]
 # Author Eric Johnfelt
-# Date 10/11/2023
+# Date 11/15/2023
 # Title Environment variable snippets
+# Environment Variables for RC files
 
 MYIP=$(ip a | grep -E "^\s+inet\s" | grep -v "127.0.0.1" | tr -s " " | head -n 1 | cut -d" " -f3 | cut -d"/" -f 1)
 
@@ -38,7 +39,7 @@ export DATMNT="/srv/storage/data"
 export SCRMNT="/srv/storage/projects/scripts"
 
 # Flags & Script Runtime Placeholders
-export BSHDEBUG=0
+export BSHDEBUG
 export TARGET=""
 
 # Shell Environment Enhancements

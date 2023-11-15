@@ -5,11 +5,8 @@ DEBUGMODE=0
 TMP=/tmp/bashrc_prefix.${RANDOM}
 MARKER="\\[AUTOMATED-INSERT-MARKER\\]"
 
-BASHRC=~/.bashrc
-BASHRCCODE=bashrc
-
-BASH_PROFILE=~/.bash_profile
-PROFILECODE="profile.txt"
+SRC="${1}"
+DST="${2}"
 
 #
 # Functions
@@ -105,21 +102,12 @@ function Append()
 # Main Loop
 #
 
-Remove "${BASHRC}"
-Remove "${BASH_PROFILE}"
+Remove "${DST}"
 
-if grep -q "${MARKER}" "${BASH_PROFILE}"; then
-	Update "${TARGET}" "${PROFILECODE}" "${MARKER}"
+if grep -q "${MARKER}" "${DST}"; then
+	Update "${DST}" "${SRC}" "${MARKER}"
 else
-	Msg "[== No Marker Found, appending to ${BASH_PROFILE}..."
-	Append "${PROFILECODE}" "${BASH_PROFILE}"
-	Msg "[= Done"
-fi
-
-if grep -q "${MARKER}" "${BASHRC}"; then
-	Update "${BASHRC}" "${BASHRCCODE}" "${MARKER}"
-else
-	Msg "[== No Marker, appending to ${BASHRC}"
-	Append "${BASHRCCODE}" "${BASHRC}"
+	Msg "[== No Marker, appending to ${DST}"
+	Append "${SRC}" "${DST}"
 	Msg "[= Done"
 fi

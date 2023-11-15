@@ -2,8 +2,9 @@
 # [AUTOMATED-INSERT-MARKER]
 # Author Eric Johnfelt
 # Date 7/30/2019, rev 4/30/2020
+# Title: Update OS
+# Purpose: Script body for system updates
 
-# Update OS
 function UpdateOS()
 {
 	CMD=""
@@ -85,4 +86,3 @@ function UpdateOS()
 		chkupd
 	fi
 }
-

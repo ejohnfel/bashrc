@@ -1,9 +1,14 @@
-########################################################
-# [AUTOMATED-INSERT-MARKER]
-# Author Eric Johnfelt
-# Date 2/15/2020
 
-BASHRCVERSION="202311150909"
+########################################################
+# Author Eric Johnfelt
+# Date 11/15/2023
+# Title: Functions File
+# Purpose: Given that some RC files have different environments, I chose to make my functions sourcable for
+# each RC file
+#
+
+# Get Envs
+[ -f ~/.bash_envs ] && source ~/.bash_envs
 
 # DbgWrite : Internal Debug Messaging
 function DbgWrite()
@@ -30,6 +35,32 @@ function SetDebugMode()
 
 	export BSHDEBUG
 	#setenv BSHDEBUG
+}
+
+# Select Screen, Select an Existing Screen to attach too
+function SelectScreen()
+{
+	list=$(screen -ls | egrep "^[\s]+[0-9]+\.[a-z0-9]")
+
+	selection=""
+
+	select screen in Quit ${list}; do
+		if [ "${screen}" = "Quit" ]; then
+			break
+		elif [ ! "${screen}" = "" ]; then
+			selection = "${screen}"
+		fi
+	done
+
+	if [ ! "${selection}" = "" ]; then
+		screen -R "${selection}"
+	fi
+}
+
+# NewNamedScreen : Create a new named screen instance
+function NewNamedScreen()
+{
+	exec screen -q -S "${1}" -t "${2}"
 }
 
 # Set prefix
@@ -181,14 +212,13 @@ function updatemybashrc()
 
 	cd /tmp/bashrc >/dev/null
 
-	REPVER=$(grep -E "^BASHRCVERSION\=" main.sh | cut -d"=" -f2 | tr -d "\"")
+	REPVER=$(grep -E "^BASHRCVERSION\=" bashrc.sh | cut -d"=" -f2 | tr -d "\"")
 
 	if [ ! "${REPVER}" = "${BASHRCVERSION}" ]; then
 		MsgWrite "Newer version (${REPVER}) in repository, updating now..."
 		make clean > /dev/null
 		make all > /dev/null
 		make update > /dev/null
-		sudo make automation > /dev/null
 
 		source ~/.bash_profile > /dev/null
 	else
@@ -197,7 +227,7 @@ function updatemybashrc()
 
 	cd .. > /dev/null
 
-	rm -Rf /tmp/bashrc
+	[ -e /tmp/bashrc] && sudo rm -Rf /tmp/bashrc
 
 	popd > /dev/null
 }
@@ -690,16 +720,3 @@ function MkBusySemaphore()
 
 	echo "${sp}"
 }
-
-# Determine This Machines Location
-DetermineLocation
-
-# Setup SSH Agent
-SSHSetup
-
-# Fortune Cow Say
-FortuneCow
-
-# Sayings
-RandomSaying
-
