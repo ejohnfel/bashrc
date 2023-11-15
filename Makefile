@@ -44,10 +44,9 @@ clean:
 	@[ -f /tmp/.bashrc.bak ] && rm /tmp/.bashrc.bak || true
 	@[ -f /tmp/.bash_profile.bak ] && rm /tmp/.bash_profile.bak || true
 
-git: $(bashrcfiles) $(updateosfiles) $(misc)
+git:
 	@./chgser
-	@git add $?
-	@git commit
+	@git commit -a
 	@git push
 
 actions:
