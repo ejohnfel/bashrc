@@ -3,7 +3,7 @@
 # Author Eric Johnfelt
 # Date 2/15/2020
 
-BASHRCVERSION="202311071032"
+BASHRCVERSION="202311150905"
 
 # DbgWrite : Internal Debug Messaging
 function DbgWrite()
@@ -634,7 +634,7 @@ function sshhosts()
 #
 function myfuncs()
 {
-	compgen -A function | egrep -v "^_|^quote$|^quote_|^command_not|^dequote"
+	compgen -A function | egrep -v "^_|^quote$|^quote_|^command_not|^dequote" | sort
 }
 
 # Env Variable for DFREE
