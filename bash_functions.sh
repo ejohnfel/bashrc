@@ -40,7 +40,7 @@ function SetDebugMode()
 # Select Screen, Select an Existing Screen to attach too
 function SelectScreen()
 {
-	list=$(screen -ls | egrep "^[\s]+[0-9]+\.[a-z0-9]")
+	list=$(screen -ls | grep -P "^\s+\d+\.[^\(]+" | cut -d"(" -f1 | tr -s "\t " | tr -d "\t\012")
 
 	selection=""
 
