@@ -40,11 +40,11 @@ function SetDebugMode()
 # Select Screen, Select an Existing Screen to attach too
 function SelectScreen()
 {
-	list=$(screen -ls | grep -P "^\s+\d+\.[^\(]+" | cut -d"(" -f1 | tr -s "\t " | tr -d "\t\012")
+	list=$(screen -ls | grep -P "^\s+\d+\.[^\(]+" | cut -d"(" -f1 | tr -s "\t " | tr -d "\t")
 
 	selection=""
 
-	select screen in Quit ${list}; do
+	select screen in Quit "${list}"; do
 		if [ "${screen}" = "Quit" ]; then
 			break
 		elif [ ! "${screen}" = "" ]; then
