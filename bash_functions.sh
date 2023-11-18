@@ -60,7 +60,7 @@ function SelectScreen()
 # NewNamedScreen : Create a new named screen instance
 function NewNamedScreen()
 {
-	exec screen -q -S "${1}" -t "${2}"
+	exec screen -q -S "${1}" -t "${2}" bash --noprofile
 }
 
 # Set prefix
