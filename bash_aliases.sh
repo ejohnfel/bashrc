@@ -27,5 +27,4 @@ alias kf="ansible-playbook -i inventory.txt keyfacts.xml -l"
 alias sshprofiles="grep -E '^(h|H)ost' ~/.ssh/config | cut -d' ' -f 2 | less"
 alias patchcloud="screen -c ~/.patchcloudrc"
 alias patchhome="screen -c ~/.patchhomerc"
-
-alias example="cls"
+alias rmhost="ssh-keygen -r"
