@@ -81,7 +81,7 @@ function settarget()
 	export TARGET
 }
 
-# See How Man CPU's a Machine Has
+# See What Main CPU's a Machine Has
 function cpus()
 {
 	count=$(cat /proc/cpuinfo | grep "processor" | wc -l | cut -d" " -f1)
@@ -351,6 +351,7 @@ function GetPackageManager()
 
 	if [ $? = 0 ]; then
 		printf "Selecting APT Package Manager\n"
+		PACKAGEMANAGER="apt"
 		FIXCHECK="apt-get --just-print upgrade | grep \"upgraded,\""
 		UPDCMDS[0]="apt-get -qq update"
 		UPDCMDS[1]="apt-get -qq -y upgrade"
@@ -364,6 +365,7 @@ function GetPackageManager()
 
 	if [ $? = 0 ]; then
 		printf "Selecting DNF Package Manager\n"
+		PACKAGEMANAGER="dnf"
 		UPDCMDS[0]="dnf upgrade -q"
 		UPDCMDS[1]="dnf autoremove -q"
 
@@ -374,6 +376,7 @@ function GetPackageManager()
 
 	if [ $? = 0 ]; then
 		printf "Selecting APK Package Manager\n"
+		PACKAGEMANAGER="apk"
 		UPDCMDS[0]="apk update --quiet --no-progress"
 		UPDCMDS[1]="apk upgrade --quiet --no-progress"
 
@@ -384,6 +387,7 @@ function GetPackageManager()
 
 	if [ $? = 0 ]; then
 		printf "Selecting YUM Package Manager\n"
+		PACKAGEMANAGER="yum"
 		FIXCHECK="yum check-update"
 		UPDCMDS=( "yum check-update" "yum -y update" "yum -y upgrade" "yum -y autoremove" )
 
@@ -394,6 +398,7 @@ function GetPackageManager()
 
 	if [ $? = 0 ]; then
 		printf "Selecting PACMAN Package Manager\n"
+		PACKAGEMANAGER="pacman"
 		UPDCMDS[0]="pacman -Syyu --noconfirm -q"
 
 		return 1
@@ -403,6 +408,7 @@ function GetPackageManager()
 
 	if [ $? = 0 ]; then
 		printf "Selecting RPM Package Manager\n"
+		PACKAGEMANAGER="rpm"
 		UPDCMDS[0]="rpm update"
 
 		return 1
@@ -412,6 +418,7 @@ function GetPackageManager()
 
 	if [ $? = 0 ]; then
 		printf "Selecting OPKG Package Manager\n"
+		PACKAGEMANAGER="opkg"
 		UPDCMDS[0]="opkg update"
 
 		return 1
@@ -421,12 +428,14 @@ function GetPackageManager()
 
 	if [ $? = 0 ]; then
 		printf "Selecting DPKG Package Manager\n"
+		PACKAGEMANAGER="dpkg"
 		UPDCMDS[0]="dpkg update"
 
 		return 1
 	fi
 
 	echo -e "Cannot determine package manager.. quitting..."
+	PACKAGEMANAGER="undetermined"
 
 	return 0
 }
