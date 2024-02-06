@@ -16,6 +16,7 @@ alias dexit="disown -a && exit"
 # Only useful when 'hollywood' and/or mplayer is installed
 alias mi="mplayer -vo caca /srv/storage/media/music/Soundtracks/mi.mp4"
 alias os="cat /etc/os-release"
+alias sane="stty sane"
 
 # Python VENV stuff
 alias activate="source bin/activate"
