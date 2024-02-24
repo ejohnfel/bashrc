@@ -33,3 +33,4 @@ alias rmhost="ssh-keygen -R"
 
 # Emergency/Utilitarian Stoof
 alias nokeyssh="ssh -o PreferredAuthentications=password -o PubkeyAuthentication=no "
+alias nokeyssh="scp -o PreferredAuthentications=password -o PubkeyAuthentication=no "
