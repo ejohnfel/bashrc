@@ -3,6 +3,8 @@
 # Author Eric Johnfelt
 # Date 1/30/2021
 
+shopt -s extglob
+
 [ -f ~/.bash_functions ] && source ~/.bash_functions
 
 if [[ $- =~ .*i.* ]]; then
