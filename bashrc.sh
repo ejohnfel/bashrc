@@ -5,7 +5,7 @@
 # Title: Main bashrc file
 # Purpose: Is the ~/.bashrc file
 
-BASHRCVERSION="202402241220"
+BASHRCVERSION="202405141115"
 
 # Source Aliases
 [ -f ~/.bash_aliases ] && source ~/.bash_aliases
