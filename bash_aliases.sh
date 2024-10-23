@@ -13,8 +13,10 @@ alias j="journalctl -xe"
 alias sysc="systemctl status "
 alias rcme="source ~/.bash_profile"
 alias dexit="disown -a && exit"
+
 # Only useful when 'hollywood' and/or mplayer is installed
 alias mi="mplayer -vo caca /srv/storage/media/music/Soundtracks/mi.mp4"
+
 alias os="cat /etc/os-release"
 alias sane="stty sane"
 
@@ -30,6 +32,7 @@ alias sshprofiles="grep -E '^(h|H)ost' ~/.ssh/config | cut -d' ' -f 2 | less"
 alias patchcloud="screen -c ~/.patchcloudrc"
 alias patchhome="screen -c ~/.patchhomerc"
 alias rmhost="ssh-keygen -R"
+alias nfsclients="netstat | grep :nfs"
 
 # Emergency/Utilitarian Stoof
 alias nokeyssh="ssh -o PreferredAuthentications=password -o PubkeyAuthentication=no "
