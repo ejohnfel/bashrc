@@ -23,8 +23,9 @@ function UpdateOS()
 		case "${1}" in
 		"-c") CMD=check ;;
 		"-w") CMD=wait ;;
-		"-r") CMD=reboot ;;
-		"-h") CMD=halt ;;
+		"-r") CMD="${REBOOT}" ;;
+		"-h") CMD="${HALT}" ;;
+		"-p") CMD="${POWEROFF}" ;;
 		"-n") NOTIFY="yes" ;;
 		"-t") REPLYDELAY="${2}"; shift 1 ;;
 		"-e") EXECDELAY="${2}"; shift 1 ;;

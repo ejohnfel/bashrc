@@ -240,7 +240,9 @@ function RandomSaying()
 		return 0
 	fi
 
-	[ -e "${SAYINGS}" ] && shuf -n1 "${SAYINGS}"
+	if timeout 5 test -e "${SAYINGS}"; then
+		shuf -n1 "${SAYINGS}"
+	fi
 }
 
 # FortuneCow : Have Cow display fortunes
@@ -358,6 +360,10 @@ function GetPackageManager()
 		UPDCMDS[2]="apt-get -qq -y dist-upgrade"
 		UPDCMDS[3]="apt-get -qq -y autoremove"
 
+		REBOOT="shutdown -r now"
+		HALT="shutdown -h now"
+		POWEROFF="poweroff"
+
 		return 1
 	fi
 
@@ -368,6 +374,10 @@ function GetPackageManager()
 		PACKAGEMANAGER="dnf"
 		UPDCMDS[0]="dnf upgrade -q"
 		UPDCMDS[1]="dnf autoremove -q"
+
+		REBOOT="shutdown -r now"
+		HALT="shutdown -h now"
+		POWEROFF="poweroff"
 
 		return 1
 	fi
@@ -380,6 +390,10 @@ function GetPackageManager()
 		UPDCMDS[0]="apk update --quiet --no-progress"
 		UPDCMDS[1]="apk upgrade --quiet --no-progress"
 
+		REBOOT="reboot"
+		HALT="halt"
+		POWEROFF="poweroff"
+
 		return 1
 	fi
 
@@ -391,6 +405,10 @@ function GetPackageManager()
 		FIXCHECK="yum check-update"
 		UPDCMDS=( "yum check-update" "yum -y update" "yum -y upgrade" "yum -y autoremove" )
 
+		REBOOT="shutdown -r now"
+		HALT="shutdown -h now"
+		POWEROFF="poweroff"
+
 		return 1
 	fi
 
@@ -400,6 +418,10 @@ function GetPackageManager()
 		printf "Selecting PACMAN Package Manager\n"
 		PACKAGEMANAGER="pacman"
 		UPDCMDS[0]="pacman -Syyu --noconfirm -q"
+
+		REBOOT="shutdown -r now"
+		HALT="shutdown -h now"
+		POWEROFF="poweroff"
 
 		return 1
 	fi
@@ -411,6 +433,10 @@ function GetPackageManager()
 		PACKAGEMANAGER="rpm"
 		UPDCMDS[0]="rpm update"
 
+		REBOOT="shutdown -r now"
+		HALT="shutdown -h now"
+		POWEROFF="poweroff"
+
 		return 1
 	fi
 
@@ -421,6 +447,10 @@ function GetPackageManager()
 		PACKAGEMANAGER="opkg"
 		UPDCMDS[0]="opkg update"
 
+		REBOOT="shutdown -r now"
+		HALT="shutdown -h now"
+		POWEROFF="poweroff"
+
 		return 1
 	fi
 
@@ -430,6 +460,10 @@ function GetPackageManager()
 		printf "Selecting DPKG Package Manager\n"
 		PACKAGEMANAGER="dpkg"
 		UPDCMDS[0]="dpkg update"
+
+		REBOOT="shutdown -r now"
+		HALT="shutdown -h now"
+		POWEROFF="poweroff"
 
 		return 1
 	fi
