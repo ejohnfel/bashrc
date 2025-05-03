@@ -37,6 +37,7 @@ export PROMNT="/srv/storage/projects"
 export STOMNT="/srv/storage"
 export DATMNT="/srv/storage/data"
 export SCRMNT="/srv/storage/projects/scripts"
+export CURRENT="${SCRMNT}/hosts"
 
 # Flags & Script Runtime Placeholders
 export BSHDEBUG

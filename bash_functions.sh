@@ -264,10 +264,53 @@ function FortuneCow()
 	fi
 }
 
+# DNS Checks
+function SniffDNS()
+{
+	TTMP=/tmp/ds.${RANDOM}
+
+	RESULT=0
+	EXTERNURL=""
+
+	EXTERNDNS="myrtr.home.net."
+
+	nslookup ${EXTERNDNS} &> "${TTMP}"
+
+	if [ $? -eq 0 ]; then
+		EXTERNURL=$(nslookup ${EXTERNDNS} | grep ^Address | tail -n -1 | cut -d" " -f2)
+	fi
+
+	dig ${EXTERNDNS} &> "${TTMP}"
+
+	if [ $? -eq 0 -a "${EXTERNURL}" = "" ]; then
+		EXTERNURL=$(dig ${EXTERNDNS} | grep "^${EXTERNDNS}" | tr -s "\t" | cut -f5)
+	fi
+
+	[ -e ${TTMP} ] && rm ${TTMP}
+
+	if [ "${EXTERNURL}" == "" ]; then
+		RESULT=1
+	fi
+
+	export EXTERNURL
+
+	return ${RESULT}
+}
+
 # Check IP against external source
 function IPCheck()
 {
+	WEAREHOME=0
+
 	IPCheckResult=$(curl -s https://checkip.amazon.aws.com)
+
+	SniffDNS
+
+	if [ "${IPCheckResult}" == "${EXTERNURL}" ]; then
+		WEAREHOME=1
+	fi
+
+	export WEAREHOME
 	export IPCheckResult
 }
 
@@ -460,6 +503,20 @@ function GetPackageManager()
 		printf "Selecting DPKG Package Manager\n"
 		PACKAGEMANAGER="dpkg"
 		UPDCMDS[0]="dpkg update"
+
+		REBOOT="shutdown -r now"
+		HALT="shutdown -h now"
+		POWEROFF="poweroff"
+
+		return 1
+	fi
+
+	xbps-install --version > /dev/null 2>&1
+
+	if [ $? = 0 ]; then
+		printf "Selecting XBPS-install Package Manager\n"
+		PACKAGEMANAGER="xbps-install"
+		UPDCMDS[0]="xbps-install -ySu"
 
 		REBOOT="shutdown -r now"
 		HALT="shutdown -h now"
@@ -708,6 +765,36 @@ function sshhosts()
 function myfuncs()
 {
 	compgen -A function | egrep -v "^_|^quote$|^quote_|^command_not|^dequote" | sort
+}
+
+#
+# Dynamic NFS mounting
+#
+
+function NFSMount()
+{
+	if [ -e /srv/nfs ]; then
+		IPCheck
+
+		if [ $WEAREHOME -eq 1 ]; then
+			mount /srv/nfs/home
+
+			if [ $? -eq 0 ]; then
+				mount -o bind /srv/nfs/home /srv/storage
+			fi
+		else
+			read -p "You are not home, attempt external NFS mount (y/n)? "
+			if [ $REPLY == "y" ]; then
+				mount /srv/nfs/net
+
+				if [ $? -eq 0 ]; then
+					mount -o bind /srv/nfs/neet /srv/storage
+				fi
+			fi
+		fi
+	else
+		echo "*** No dynamic mounting setup on this host"
+	fi
 }
 
 # Env Variable for DFREE

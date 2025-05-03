@@ -37,3 +37,6 @@ alias nfsclients="netstat | grep :nfs"
 # Emergency/Utilitarian Stoof
 alias nokeyssh="ssh -o PreferredAuthentications=password -o PubkeyAuthentication=no "
 alias nokeyscp="scp -o PreferredAuthentications=password -o PubkeyAuthentication=no "
+
+# Custom Environmental Stuff
+alias cur="cd ${CURRENT}"
