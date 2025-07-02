@@ -13,6 +13,8 @@ alias j="journalctl -xe"
 alias sysc="systemctl status "
 alias rcme="source ~/.bash_profile"
 alias dexit="disown -a && exit"
+alias noscreen="touch /tmp/${LOGNAME}.noscreen"
+alias clearnoscreen="rm /tmp/${LOGNAME}.noscreen"
 
 # Only useful when 'hollywood' and/or mplayer is installed
 alias mi="mplayer -vo caca /srv/storage/media/music/Soundtracks/mi.mp4"

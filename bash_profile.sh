@@ -12,7 +12,9 @@ if [[ $- =~ .*i.* ]]; then
 		# if which returns a zero value, then screen is installed
 		# and we may now proceed, otherwise, we don't bother using it.
 
-		if ! screen -ls "Login SCREEN" > /dev/null; then
+		if [ -e "/tmp/${LOGNAME}.noscreen" ]; then
+			rm "/tmp/${LOGNAME}.noscreen"
+		elif ! screen -ls "Login SCREEN" > /dev/null; then
 			# No Login SCREEN
 			NewNamedScreen "Login SCREEN" "Login Screen"
 		else
