@@ -13,7 +13,7 @@ if [[ $- =~ .*i.* ]]; then
 		# and we may now proceed, otherwise, we don't bother using it.
 
 		if [ -e "/tmp/${LOGNAME}.noscreen" ]; then
-			rm "/tmp/${LOGNAME}.noscreen"
+			printf "Skipping screen via noscreen, clearnoscreen to reset\n"
 		elif ! screen -ls "Login SCREEN" > /dev/null; then
 			# No Login SCREEN
 			NewNamedScreen "Login SCREEN" "Login Screen"
