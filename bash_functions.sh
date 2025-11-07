@@ -42,6 +42,8 @@ function SelectScreen()
 {
 	declare options
 
+	tmpfile="/tmp/selectscreen.tmp.${RANDOM}"
+
 	screen -ls | grep -v "(Attached)" |grep -P "^\s+\d+\.[^\(]+" | cut -f2-3 | tr "\t" " " | tr -d "()" > "${tmpfile}"
 
 	mapfile -t < "${tmpfile}"
@@ -50,18 +52,20 @@ function SelectScreen()
 
 	selection=""
 
-	select screen in "${$MAPFILE[@]}" Quit; do
-		if [ "${screen}" = "Quit" ]; then
-			break
-		elif [ ! "${screen}" = "" ]; then
-			selection = "${screen}"
-			break
-		fi
-	done
+	if [ ${#MAPFILE[@]} -gt 0 ]; then
+		select screen in "${MAPFILE[@]}" Quit; do
+			if [ "${screen}" = "Quit" ]; then
+				break
+			elif [ ! "${screen}" = "" ]; then
+				selection = "${screen}"
+				break
+			fi
+		done
 
-	if [ ! "${selection}" = "" ]; then
-		sid=$(echo ${selection} | cut -d" " -f1)
-		screen -R "${sid}"
+		if [ ! "${selection}" = "" ]; then
+			sid=$(echo ${selection} | cut -d" " -f1)
+			screen -R "${sid}"
+		fi
 	fi
 }
 
