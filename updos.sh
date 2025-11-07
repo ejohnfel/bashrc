@@ -21,11 +21,12 @@ function UpdateOS()
 
 	while [ ! "${1}" = "" ]; do
 		case "${1}" in
-		"-c") CMD=check ;;
-		"-w") CMD=wait ;;
-		"-r") CMD="${REBOOT}" ;;
-		"-h") CMD="${HALT}" ;;
-		"-p") CMD="${POWEROFF}" ;;
+		"-c") CMD="check" ;;
+		"-w") CMD="wait" ;;
+		"-r") CMD="reboot" ;;
+		"-h") CMD="halt" ;;
+		"-p") CMD="poweroff" ;;
+		"-s") CMD="shutdown" ;;
 		"-n") NOTIFY="yes" ;;
 		"-t") REPLYDELAY="${2}"; shift 1 ;;
 		"-e") EXECDELAY="${2}"; shift 1 ;;
@@ -77,6 +78,9 @@ function UpdateOS()
 		"halt")
 			read -n 1 -t ${REPLYDELAY} -p "Shutting down ${HOSTNAME} in ${REPLYDELAY}s, abort (y/n)? "
 			[ ! "${REPLY}" = "y" ] && ${PREFIX} shutdown -h now ;;
+		"poweroff")
+			read -n 1 -t ${REPLYDELAY} -p "Powering off ${HOSTNAME} in ${REPLYDELAY}s, abort (y/n)? "
+			[ ! "${REPLY}" = "y" ] && ${PREFIX} shutdown -P now ;;
 		*)
 			read -n 1 -t ${REPLYDELAY} -p "Reboot ${HOSTNAME} (y/N)? "
 			[ "${REPLY}" = "y" -o "${REPLY}" = "Y" ] && ${PREFIX} reboot

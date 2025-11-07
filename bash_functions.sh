@@ -40,20 +40,28 @@ function SetDebugMode()
 # Select Screen, Select an Existing Screen to attach too
 function SelectScreen()
 {
-	list=$(screen -ls | grep -P "^\s+\d+\.[^\(]+" | cut -d"(" -f1 | tr -s "\t " | tr -d "\t")
+	declare options
+
+	screen -ls | grep -v "(Attached)" |grep -P "^\s+\d+\.[^\(]+" | cut -f2-3 | tr "\t" " " | tr -d "()" > "${tmpfile}"
+
+	mapfile -t < "${tmpfile}"
+
+	[ -e "${tmpfile}" ] && rm "${tmpfile}"
 
 	selection=""
 
-	select screen in Quit "${list}"; do
+	select screen in "${$MAPFILE[@]}" Quit; do
 		if [ "${screen}" = "Quit" ]; then
 			break
 		elif [ ! "${screen}" = "" ]; then
 			selection = "${screen}"
+			break
 		fi
 	done
 
 	if [ ! "${selection}" = "" ]; then
-		screen -R "${selection}"
+		sid=$(echo ${selection} | cut -d" " -f1)
+		screen -R "${sid}"
 	fi
 }
 
