@@ -834,6 +834,90 @@ function dfree()
 	fi
 }
 
+function mkitgt()
+{
+	if [ "${1}" == "" ]; then
+		printf "mkitgt tid-num target-name\n"
+		printf "i.e. mkitgt 0 iqn.2025-12.hostname:volname\n"
+	else
+		sudo tgtadm --lld iscsi --op new --mode target --tid=${1} --T ${2}
+	fi
+}
+
+function rmitgt()
+{
+	if [ "${1}" == "" ]; then
+		printf "rmitgt tid-num\n"
+		printf "rmitgt 0\n"
+	else
+		sudo tgtadm --lld iscsi --op delete --mode target --tid=${1}
+	fi
+}
+
+function mkilun()
+{
+	if [ "${1}" == "" ]; then
+		printf "mkilun tid-num lun-num dev-spec|file-spec\n"
+		printf "mkilun 0 1 /dev/sda\n"
+	else
+		sudo tgtadm --lld iscsi --op new --mode logicalunit --tid=${1} --lun=${2} -b ${3}
+	fi
+}
+
+function rmilun()
+{
+	if [ "${1}" == "" ]; then
+		printf "rmilun tid-num lun-num\n"
+		printf "rmilun 0 3\n"
+	else
+		sudo tgtadm --lld iscsi --op delete --mode logicalunit --tid=${1} --lun=${2}
+	fi
+}
+
+function mkibind()
+{
+	if [ "${1}" == "" ]; then
+		printf "mkibind tid-num ip-addr\n"
+		printf "mkibind 0 ALL\n"
+		printf "mkibind 1 192.168.1.24\n"
+	else
+		addr="ALL"
+
+		if [ "${2}" != "" ]; then
+			addr=${2}
+		fi
+
+		sudo tgtadm --lld iscsi --op bind --mode target --tid ${1} --initiator-address ${addr}
+	fi
+}
+
+function rmibind()
+{
+	if [ "${1}" == "" ]; then
+		printf "rmibind tid-num address\n"
+		printf "rmibind 0 ALL\n"
+		printf "rmibind 0 192.168.1.24\n"
+	else
+		addr="ALL"
+
+		if [ "${2}" != "" ]; then
+			addr=${2}
+		fi
+
+		sudo tgtadm --lld iscsi --op unbind --mode target --tid ${1} --initiator-address "${2}"
+	fi
+}
+
+function tgtshow()
+{
+	sudo tgtadm --lld iscsi --op show
+}
+
+function tgtdump()
+{
+	sudo tgt-admin --dump > /etc/tgt/conf.d/iscsi.conf
+}
+
 # MkBusySemaphore
 # Parameters : [semaphore-name]
 # Summary : If a name is provided, it will used, otherwise, function will
