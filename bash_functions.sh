@@ -838,9 +838,9 @@ function mkitgt()
 {
 	if [ "${1}" == "" ]; then
 		printf "mkitgt tid-num target-name\n"
-		printf "i.e. mkitgt 0 iqn.2025-12.hostname:volname\n"
+		printf "i.e. mkitgt 1 iqn.2025-12.hostname:volname\n"
 	else
-		sudo tgtadm --lld iscsi --op new --mode target --tid=${1} --T ${2}
+		sudo tgtadm --lld iscsi --op new --mode target --tid=${1} -T ${2}
 	fi
 }
 
@@ -848,7 +848,7 @@ function rmitgt()
 {
 	if [ "${1}" == "" ]; then
 		printf "rmitgt tid-num\n"
-		printf "rmitgt 0\n"
+		printf "rmitgt 1\n"
 	else
 		sudo tgtadm --lld iscsi --op delete --mode target --tid=${1}
 	fi
@@ -858,7 +858,7 @@ function mkilun()
 {
 	if [ "${1}" == "" ]; then
 		printf "mkilun tid-num lun-num dev-spec|file-spec\n"
-		printf "mkilun 0 1 /dev/sda\n"
+		printf "mkilun 1 2 /dev/sda\n"
 	else
 		sudo tgtadm --lld iscsi --op new --mode logicalunit --tid=${1} --lun=${2} -b ${3}
 	fi
@@ -868,7 +868,7 @@ function rmilun()
 {
 	if [ "${1}" == "" ]; then
 		printf "rmilun tid-num lun-num\n"
-		printf "rmilun 0 3\n"
+		printf "rmilun 1 3\n"
 	else
 		sudo tgtadm --lld iscsi --op delete --mode logicalunit --tid ${1} --lun ${2}
 	fi
@@ -878,7 +878,7 @@ function mkibind()
 {
 	if [ "${1}" == "" ]; then
 		printf "mkibind tid-num ip-addr\n"
-		printf "mkibind 0 ALL\n"
+		printf "mkibind 1 ALL\n"
 		printf "mkibind 1 192.168.1.24\n"
 	else
 		addr="ALL"
@@ -895,8 +895,8 @@ function rmibind()
 {
 	if [ "${1}" == "" ]; then
 		printf "rmibind tid-num address\n"
-		printf "rmibind 0 ALL\n"
-		printf "rmibind 0 192.168.1.24\n"
+		printf "rmibind 1 ALL\n"
+		printf "rmibind 1 192.168.1.24\n"
 	else
 		addr="ALL"
 
