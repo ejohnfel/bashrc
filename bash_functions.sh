@@ -910,7 +910,7 @@ function rmibind()
 
 function tgtshow()
 {
-	sudo tgtadm --lld iscsi --op show
+	sudo tgtadm --lld iscsi --op show --mode target
 }
 
 function tgtdump()
