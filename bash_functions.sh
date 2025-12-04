@@ -870,7 +870,7 @@ function rmilun()
 		printf "rmilun tid-num lun-num\n"
 		printf "rmilun 0 3\n"
 	else
-		sudo tgtadm --lld iscsi --op delete --mode logicalunit --tid=${1} --lun=${2}
+		sudo tgtadm --lld iscsi --op delete --mode logicalunit --tid ${1} --lun ${2}
 	fi
 }
 
