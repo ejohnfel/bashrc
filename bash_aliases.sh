@@ -31,15 +31,17 @@ alias ap="ansible-playbook"
 alias kf="ansible-playbook -i inventory.txt keyfacts.xml -l"
 
 # Custom Stoof
-alias sshprofiles="grep -E '^(h|H)ost' ~/.ssh/config | cut -d' ' -f 2 | less"
 alias patchcloud="screen -c ~/.patchcloudrc"
 alias patchhome="screen -c ~/.patchhomerc"
 alias rmhost="ssh-keygen -R"
 alias nfsclients="netstat | grep :nfs"
 
-# Emergency/Utilitarian Stoof
+# SSH Stoof
+alias sshprofiles="grep -E '^(h|H)ost' ~/.ssh/config | cut -d' ' -f 2 | less"
 alias nokeyssh="ssh -o PreferredAuthentications=password -o PubkeyAuthentication=no "
 alias nokeyscp="scp -o PreferredAuthentications=password -o PubkeyAuthentication=no "
+alias sshadd="ssh-add ~/.ssh/id_rsa ~/.ssh/id_rsa_vultr ~/.ssh/id_rsa_work ~/.ssh/id_github"
+alias sshagent="ssh-agent bash"
 
 # Custom Environmental Stuff
 alias cur="cd ${CURRENT}"
