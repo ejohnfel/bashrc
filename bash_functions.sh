@@ -147,11 +147,24 @@ function SSHSetup()
 
 	TMP=/tmp/tmp.${RANDOM}
 
+	result=0
+	CheckBusyBox
+
 	# Check for existing SSH-AGENT, no need to run more if user is already running one
-	ps -u "${LOGNAME}" | grep "ssh-agent" > ${TMP}
+	if [ $? = 1 ]; then
+		UNAME=$(echo "${LOGNAME}" | cut -b1-8)
+
+		ps | grep "${UNAME}" | grep "ssh-agent" > "${TMP}"
+
+		result=$?
+	else
+		ps -u "${LOGNAME}" | grep "ssh-agent" > "${TMP}"
+
+		result=$?
+	fi
 
 	# Check for running SSH-AGENT
-	if [ $? = 0 ]; then
+	if [ ${result} = 0 ]; then
 		# Agent running, get PID
 		PID=$(cut -d" " -f1 "${TMP}" | head -n 1)
 		SSH_AGENT_PID=${PID}
@@ -399,6 +412,34 @@ function isnat()
 		echo -e "[=== This host is NOT NAT/PAT'ed"
 		echo -e "[=== IP : ${INTERNIP}"
 	fi
+}
+
+# Determine if Busybox is in use
+function CheckBusybox()
+{
+	result=0
+
+	busybox --list > /dev/null 2>&1
+
+	if [ $? -eq 0 ]; then
+		# Here at least we know busybox is installed
+		busybox --list | while read item; do
+			bin_loc=$(which "${item}")
+
+			if [ -L "${bin_loc}" ]; then
+				# Here we know at least one binary in the FS is actually a symbolic link.
+				# confirming busybox is in use
+				result=1
+				export BUSYBOX_FLAG=1
+
+				break
+			fi
+		done
+	else:
+		export BUSYBOX_FLAG=0
+	fi
+
+	return ${result}
 }
 
 # Determine Package Manager
