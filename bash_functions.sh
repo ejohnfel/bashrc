@@ -148,10 +148,10 @@ function SSHSetup()
 	TMP=/tmp/tmp.${RANDOM}
 
 	result=0
-	CheckBusyBox
+	CheckBusybox
 
 	# Check for existing SSH-AGENT, no need to run more if user is already running one
-	if [ $? = 1 ]; then
+	if [ $? = 1 -o -f /tmp/busybox_inuse ]; then
 		UNAME=$(echo "${LOGNAME}" | cut -b1-8)
 
 		ps | grep "${UNAME}" | grep "ssh-agent" > "${TMP}"
@@ -163,6 +163,9 @@ function SSHSetup()
 		result=$?
 	fi
 
+	[ -e "${TMP}" ] && rm "${TMP}"
+
+
 	# Check for running SSH-AGENT
 	if [ ${result} = 0 ]; then
 		# Agent running, get PID
@@ -171,8 +174,6 @@ function SSHSetup()
 		export SSH_AGENT_PID
 		NOAGENT=0
 	fi
-
-	[ -e ${TMP} ] && rm ${TMP}
 
 	if [ ${NOAGENT} = 1 ]; then
 		eval `ssh-agent`
@@ -432,11 +433,14 @@ function CheckBusybox()
 				result=1
 				export BUSYBOX_FLAG=1
 
+				touch /tmp/busybox_inuse
+
 				break
 			fi
 		done
 	else
 		export BUSYBOX_FLAG=0
+		touch /tmp/busybox_notinuse
 	fi
 
 	return ${result}
