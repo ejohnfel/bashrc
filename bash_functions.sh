@@ -435,7 +435,7 @@ function CheckBusybox()
 				break
 			fi
 		done
-	else:
+	else
 		export BUSYBOX_FLAG=0
 	fi
 
