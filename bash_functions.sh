@@ -148,7 +148,7 @@ function SSHSetup()
 	TMP=/tmp/tmp.${RANDOM}
 
 	# Check for existing SSH-AGENT, no need to run more if user is already running one
-	if [ -L /usr/bin/ps || -L /bin/ps || -f /bin/busybox ]; then
+	if [ -L /usr/bin/ps -o -L /bin/ps -o -f /bin/busybox ]; then
 		# Case of Busybox
 		UNAME=$(echo "${LOGNAME}" | cut -b1-8)
 
