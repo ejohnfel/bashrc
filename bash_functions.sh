@@ -72,6 +72,7 @@ function SelectScreen()
 # NewNamedScreen : Create a new named screen instance
 function NewNamedScreen()
 {
+	shopt execfail
 	exec screen -q -S "${1}" -t "${2}" bash --noprofile
 }
 
