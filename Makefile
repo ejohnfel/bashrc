@@ -59,4 +59,4 @@ actions:
 	@printf "update\t\tDo update deploy\n"
 	@printf "automation\tDo Automation deploy (reqs root, will attempt to sudo)\n"
 	@printf "clean\t\tClean all intermediate files\n"
-	@printf "git\t\tAdd, commit and push, you must add first\n"
+	@printf "git\t\tAdd, commit and push, you must add first (does chgser first)\n"

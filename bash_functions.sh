@@ -135,6 +135,16 @@ function dockershell()
 	fi
 }
 
+function noprofilessh()
+{
+	ssh "${1}" "bash --noprofile --norc"
+}
+
+function fixscreen()
+{
+	ssh "${1}" "bash 'sudo apt-get -y remove screen; sudo apt-get -y install screen'"
+}
+
 # SSH Setup Stuff
 function SSHSetup()
 {
